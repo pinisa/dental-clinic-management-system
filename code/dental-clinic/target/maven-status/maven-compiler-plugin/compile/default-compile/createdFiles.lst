@@ -1,3 +1,4 @@
+com/clinic/dental_clinic/DentalClinicApplication.class
 com/clinic/dental_clinic/exception/ResourceNotFoundException.class
 com/clinic/dental_clinic/dto/response/PatientResponse.class
 com/clinic/dental_clinic/domain/entity/AppointmentQueue.class
@@ -39,6 +40,7 @@ com/clinic/dental_clinic/service/impl/PatientServiceImpl.class
 com/clinic/dental_clinic/domain/enums/QueueStatus.class
 com/clinic/dental_clinic/dto/request/QueueBookingRequest.class
 com/clinic/dental_clinic/pattern/observer/NotificationTemplate.class
+com/clinic/dental_clinic/config/DataSeeder.class
 com/clinic/dental_clinic/pattern/observer/SmsNotificationObserver.class
 com/clinic/dental_clinic/pattern/observer/QueueSubject.class
 com/clinic/dental_clinic/controller/api/AppointmentController.class

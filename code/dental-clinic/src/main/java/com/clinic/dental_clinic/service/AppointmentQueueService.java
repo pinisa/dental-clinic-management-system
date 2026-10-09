@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface AppointmentQueueService {
+    void deleteQueue(Long id);
     QueueResponse createQueue(QueueBookingRequest request);
     QueueResponse getQueueById(Long id);
     Page<QueueResponse> getAllQueues(Pageable pageable);
