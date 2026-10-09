@@ -1,66 +1,54 @@
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/service/TreatmentRecordService.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/mapper/AppointmentMapper.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/common/ApiResponse.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/factory/ServiceQueueFactory.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/request/PatientRequest.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/repository/TreatmentRecordRepository.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/repository/PatientRepository.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/common/DateTimeUtils.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/response/AppointmentResponse.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/domain/entity/PatientProfile.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/domain/enums/QueueStatus.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/controller/web/HomeController.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/controller/web/PatientWebController.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/strategy/PricingStrategy.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/response/QueueResponse.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/controller/api/AppointmentController.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/domain/entity/Appointment.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/config/DataInitializer.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/request/TreatmentRecordRequest.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/exception/ResourceConflictException.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/domain/entity/Dentist.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/response/PatientResponse.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/config/OpenApiConfig.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/domain/entity/TreatmentRecord.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/controller/api/PatientController.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/strategy/PricingContext.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/response/TreatmentRecordResponse.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/repository/AppointmentRepository.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/request/WebQueueBookingRequest.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/common/AppConstants.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/config/WebClientConfig.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/observer/SmsNotificationObserver.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/factory/ServiceQueuePrototype.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/service/impl/TreatmentRecordServiceImpl.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/request/AppointmentRequest.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/exception/GlobalExceptionHandler.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/strategy/DirectPayStrategy.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/controller/web/QueueWebController.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/domain/entity/Patient.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/strategy/SocialSecurityStrategy.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/domain/enums/PatientType.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/service/impl/AppointmentServiceImpl.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/domain/entity/AppointmentQueue.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/exception/BadRequestException.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/domain/enums/CoverageType.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/observer/AuditLogObserver.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/service/impl/PatientServiceImpl.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/request/QueueBookingRequest.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/observer/QueueSubject.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/service/PatientService.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/strategy/CivilServantStrategy.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/DentalClinicApplication.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/observer/QueueObserver.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/mapper/PatientMapper.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/repository/AppointmentQueueRepository.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/service/impl/AppointmentQueueServiceImpl.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/repository/DentistRepository.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/service/AppointmentService.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/mapper/TreatmentRecordMapper.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/service/AppointmentQueueService.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/response/ErrorResponse.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/exception/ResourceNotFoundException.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/pattern/observer/NotificationTemplate.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/controller/api/TreatmentController.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/controller/api/AppointmentQueueController.java
-/Users/ppniie/Desktop/final_project 2/code/src/main/java/com/clinic/dental_clinic/dto/mapper/AppointmentQueueMapper.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/request/PatientRequest.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/strategy/PricingContext.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/DentalClinicApplication.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/strategy/PricingStrategy.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/response/PatientResponse.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/request/AppointmentRequest.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/service/impl/AppointmentServiceImpl.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/response/QueueResponse.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/service/impl/TreatmentRecordServiceImpl.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/exception/ResourceConflictException.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/service/PatientService.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/domain/entity/TreatmentRecord.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/controller/api/TreatmentController.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/response/AppointmentResponse.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/domain/enums/PatientType.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/request/TreatmentRecordRequest.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/observer/NotificationTemplate.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/exception/ResourceNotFoundException.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/repository/TreatmentRecordRepository.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/observer/SmsNotificationObserver.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/controller/api/PatientController.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/strategy/SocialSecurityStrategy.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/controller/api/AppointmentController.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/config/DataSeeder.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/repository/AppointmentQueueRepository.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/domain/entity/AppointmentQueue.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/repository/AppointmentRepository.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/observer/QueueSubject.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/strategy/DirectPayStrategy.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/service/TreatmentRecordService.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/repository/DentistRepository.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/controller/web/QueueWebController.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/mapper/TreatmentRecordMapper.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/request/WebQueueBookingRequest.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/response/TreatmentRecordResponse.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/controller/api/AppointmentQueueController.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/observer/QueueObserver.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/mapper/AppointmentQueueMapper.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/domain/entity/PatientProfile.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/domain/entity/Dentist.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/service/AppointmentQueueService.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/domain/entity/Patient.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/controller/web/PatientWebController.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/strategy/CivilServantStrategy.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/service/impl/AppointmentQueueServiceImpl.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/domain/enums/QueueStatus.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/mapper/AppointmentMapper.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/mapper/PatientMapper.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/repository/PatientRepository.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/domain/entity/Appointment.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/service/impl/PatientServiceImpl.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/service/AppointmentService.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/dto/request/QueueBookingRequest.java
+/Users/ppniie/Desktop/dental-clinic-fresh/code/dental-clinic/src/main/java/com/clinic/dental_clinic/pattern/observer/AuditLogObserver.java
