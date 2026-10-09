@@ -6,21 +6,9 @@
 
 | ลำดับ | ชื่อ-นามสกุล | รหัสนักศึกษา | Section | Branch | หน้าที่รับผิดชอบ |
 |---|---|---|---|---|---|
-| 1 | นางสาวพินิสา สุทธมาตย์ | 6733805973-3 | Sec.3 | `pinisa_6733805973_03` | Patient Management, Database Design และ Pricing Strategy Pattern |
-| 2 | นายชาคริต รุ่งเรืองงาม | 6733803997-3 | Sec.3 | `chakhit_6733803997_03` | Dentist & Appointment Management และ Observer Pattern |
-| 3 | นายพชรดนัย สุดชาติ | 6733805931-1 | Sec.3 | `phacharadanai_6733805931_03` | Queue & Treatment Management, Template Method Pattern และ System Integration |
-
-> หมายเหตุ: การแบ่งงานในตารางนี้อ้างอิงจากสัญลักษณ์ A, B และ C ในโครงสร้างไฟล์ที่ทีมกำหนด
-
-## Tech Stack
-
-- **Backend Framework:** Spring Boot 3.x, Java 17+
-- **Database & ORM:** PostgreSQL, Spring Data JPA
-- **API Documentation:** OpenAPI 3.0, Swagger UI
-- **Testing:** JUnit 5, Mockito
-- **Containerization:** Docker, Docker Compose
-- **Version Control:** Git, GitHub
-- **Deployment & CI/CD:** Render หรือ Cloud Service และ GitHub Actions
+| 3 | นางสาวพินิสา สุทธมาตย์ | 6733805973-3 | Sec.3 | `pinisa_6733805973_03` | Patient Management, Database Design และ Pricing Strategy Pattern |
+| 1 | นายพชรดนัย สุดชาติ | 6733805931-1 | Sec.3 | `phacharadanai_6733805931_03` | Dentist & Appointment Management และ Observer Pattern |
+| 2 | นายชาคริต รุ่งเรืองงาม | 673380997-3 | Sec.3 | `chakhit_6733803997_03` | Queue & Treatment Management, Template Method Pattern และ System Integration |
 
 ## System Architecture
 
@@ -32,8 +20,6 @@
 - **Domain / Entity Layer:** กำหนด Entity และความสัมพันธ์ระหว่างข้อมูล
 - **DTO / Mapper Layer:** แยกข้อมูลที่รับจากผู้ใช้และข้อมูลที่ส่งกลับจาก Entity
 - **Configuration Layer:** จัดการการตั้งค่าระบบและการเชื่อมต่อฐานข้อมูล
-
-![System Architecture](img/architecture.png)
 
 ## Database Design (ER Diagram)
 
@@ -57,53 +43,9 @@
 - `Patient` กับ `TreatmentRecord` — One-to-Many
 - `Dentist` กับ `TreatmentRecord` — เชื่อมโยงประวัติการรักษากับทันตแพทย์ผู้ให้บริการ
 
-![ER Diagram](img/erd.png)
-
-## Project Structure
-
-โครงสร้างโปรเจกต์หลักอยู่ภายใน `code/dental-clinic/` โดยแบ่งหน้าที่ตาม A, B และ C เพื่อช่วยลดการแก้ไขไฟล์เดียวกันซ้ำซ้อน
-
-```text
-dental-clinic-management-system/
-├── code/
-│   ├── .gitignore
-│   └── dental-clinic/
-│       ├── pom.xml
-│       ├── mvnw
-│       ├── Dockerfile
-│       └── src/
-│           ├── main/
-│           │   ├── java/com/clinic/dental_clinic/
-│           │   │   ├── domain/
-│           │   │   │   ├── entity/
-│           │   │   │   └── enums/
-│           │   │   ├── repository/
-│           │   │   ├── dto/
-│           │   │   │   ├── request/
-│           │   │   │   └── response/
-│           │   │   ├── mapper/
-│           │   │   ├── service/
-│           │   │   │   └── impl/
-│           │   │   ├── controller/
-│           │   │   ├── pattern/
-│           │   │   │   ├── strategy/
-│           │   │   │   ├── observer/
-│           │   │   │   └── template/
-│           │   │   ├── config/
-│           │   │   └── exception/
-│           │   └── resources/
-│           │       ├── templates/
-│           │       ├── static/
-│           │       └── application.properties
-│           └── test/java/com/clinic/dental_clinic/
-├── doc/
-├── img/
-└── test/
-```
-
 ## File Ownership and Responsibilities
 
-### A — Pinisa: Patient Management & Pricing Strategy
+### Pinisa: Patient Management & Pricing Strategy
 
 **Entity และ Repository**
 - `domain/entity/Patient.java`
@@ -132,7 +74,7 @@ dental-clinic-management-system/
 - `src/test/java/com/clinic/dental_clinic/service/PatientServiceImplTest.java`
 - เพิ่ม unit tests สำหรับแต่ละ Pricing Strategy ตามเงื่อนไขที่กำหนด
 
-### B — ชาคริต: Dentist & Appointment Management / Observer Pattern
+### พชรดนัย: Dentist & Appointment Management / Observer Pattern
 
 **Entity และ Repository**
 - `domain/entity/Dentist.java`
@@ -160,7 +102,7 @@ dental-clinic-management-system/
 - `src/test/java/com/clinic/dental_clinic/service/AppointmentServiceImplTest.java`
 - เพิ่ม tests สำหรับ Observer เพื่อทดสอบการแจ้งเตือนเมื่อสถานะคิวเปลี่ยนแปลง
 
-### C — พชรดนัย: Queue & Treatment Management / Template Method Pattern
+### ชาคริต: Queue & Treatment Management / Template Method Pattern
 
 **Entity และ Repository**
 - `domain/entity/AppointmentQueue.java`
@@ -193,25 +135,12 @@ dental-clinic-management-system/
 - `src/test/java/com/clinic/dental_clinic/service/AppointmentQueueServiceImplTest.java`
 - เพิ่ม tests สำหรับ Treatment Record และ Template Method ตามการทำงานที่พัฒนา
 
-### Shared Files — ทุกคนต้องประสานงาน
-
-ไฟล์ต่อไปนี้มีผลกับหลายส่วน จึงควรตกลงรูปแบบร่วมกันก่อนแก้ไข
-
-- `pom.xml` — dependencies และ build configuration
-- `resources/application.properties` — การตั้งค่าฐานข้อมูลและ environment
-- `domain/entity/` — ความสัมพันธ์ระหว่าง Entity
-- `config/` — การตั้งค่าระบบ
-- `exception/` — รูปแบบการจัดการข้อผิดพลาด
-- `resources/templates/` และ `resources/static/` — หน้าเว็บและไฟล์ UI
-- `DentalClinicApplication.java` — จุดเริ่มต้นของ Spring Boot
-
 ## Design Patterns
 
 ระบบนำ GoF Design Patterns มาใช้เพื่อแสดงการประยุกต์ใช้รูปแบบการออกแบบซอฟต์แวร์
 
 1. **Strategy Pattern:** เลือกวิธีคำนวณค่าบริการตามประเภทสิทธิ์การชำระเงิน เช่น จ่ายเอง ประกันสังคม และสิทธิข้าราชการ
 2. **Observer Pattern:** แจ้งเตือนหรือบันทึก Log เมื่อสถานะคิวมีการเปลี่ยนแปลง
-3. **Template Method Pattern:** กำหนดขั้นตอนหลักของการแจ้งเตือนร่วมกัน และเปิดให้คลาสย่อยปรับขั้นตอนเฉพาะ เช่น การสร้างข้อความหรือวิธีส่ง
 
 ## Installation & Setup
 
@@ -263,15 +192,3 @@ chmod +x mvnw
 ./mvnw test
 ```
 
-## Team Development Guidelines
-
-- สมาชิกแต่ละคนควรพัฒนาใน branch ของตนเอง
-- Commit งานเป็นส่วนย่อย พร้อมข้อความที่สื่อความหมาย
-- หลีกเลี่ยงการแก้ไขไฟล์ของสมาชิกคนอื่นโดยไม่ประสานงาน
-- ทดสอบโค้ดก่อน Push และ Merge
-- ตรวจสอบความเข้ากันได้ของ Entity, DTO, Service และ Controller ก่อนรวม branch
-- ห้าม commit ไฟล์ build output เช่น `target/` และห้าม commit secret หรือ credentials
-
-## Project Status
-
-โปรเจกต์นี้พัฒนาเพื่อการเรียนรู้และสาธิตการออกแบบ Web Application ด้วย Spring Boot, การจัดการฐานข้อมูล, REST API, Unit Testing และ GoF Design Patterns
