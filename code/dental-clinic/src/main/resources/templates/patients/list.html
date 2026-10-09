@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ทะเบียนประวัติผู้ป่วย - DentalProtect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 font-sans antialiased text-slate-800">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-slate-900 text-white shadow-md sticky top-0 z-50 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="/" class="flex items-center space-x-3 group">
+                    <div class="bg-gradient-to-tr from-blue-600 to-teal-400 p-2.5 rounded-xl shadow-md group-hover:scale-105 transition">
+                        <i class="fa-solid fa-tooth text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-xl tracking-wide bg-gradient-to-r from-white via-slate-100 to-blue-200 bg-clip-text text-transparent">DentalProtect</span>
+                        <span class="text-[10px] text-teal-400 block -mt-1 uppercase tracking-widest font-semibold">Dental Clinic System</span>
+                    </div>
+                </a>
+                <div class="flex items-center space-x-2">
+                    <a href="/" class="text-slate-300 hover:bg-slate-800 hover:text-white px-4 py-2 rounded-xl text-sm font-medium transition flex items-center space-x-2">
+                        <i class="fa-solid fa-chart-pie text-xs"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="/queues" class="text-slate-300 hover:bg-slate-800 hover:text-white px-4 py-2 rounded-xl text-sm font-medium transition flex items-center space-x-2">
+                        <i class="fa-solid fa-calendar-check text-xs"></i>
+                        <span>คิวการรักษา</span>
+                    </a>
+                    <a href="/patients" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-sm flex items-center space-x-2">
+                        <i class="fa-solid fa-user-nurse text-xs"></i>
+                        <span>ทะเบียนผู้ป่วย</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-800">ทะเบียนประวัติผู้ป่วยทำฟัน</h1>
+                <p class="text-sm text-slate-500">รายชื่อคนไข้ เบอร์ติดต่อ และประเภทสิทธิการรักษาพยาบาล</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+            <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">ID ผู้ป่วย</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">ชื่อ-นามสกุล</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">เบอร์โทรศัพท์ติดต่อ</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">สิทธิสวัสดิการการรักษา</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-slate-100">
+                    <tr th:each="patient : ${patients}" class="hover:bg-slate-50/80 transition">
+                        <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-800" th:text="${patient.id}">1</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-slate-700 font-medium" th:text="${patient.name}">สมชาย เข็มกลัด</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-slate-700" th:text="${patient.phone}">0812345678</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-100 text-blue-800" th:text="${patient.coverageType}">GENERAL</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${patients == null or (patients.content != null and #lists.isEmpty(patients.content)) or (patients.content == null and #lists.isEmpty(patients))}">
+                        <td colspan="4" class="px-6 py-12 text-center text-slate-400">
+                            <i class="fa-solid fa-hospital-user text-4xl mb-3 block text-slate-300"></i>
+                            <span>ยังไม่มีประวัติผู้ป่วยบันทึกในระบบ</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</body>
+</html>

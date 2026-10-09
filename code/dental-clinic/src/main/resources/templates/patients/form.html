@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="th" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${patientRequest.id == null ? 'เพิ่มผู้ป่วย' : 'แก้ไขผู้ป่วย'} + ' | DentalProtect'">จัดการผู้ป่วย | DentalProtect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800">
+<header class="bg-slate-950 text-white"><div class="max-w-5xl mx-auto px-6 py-5 flex items-center gap-3"><img src="/images/tooth-logo.svg" class="w-10 h-10" alt="DentalProtect"><div><div class="font-bold text-xl">DentalProtect</div><div class="text-xs text-slate-400">Patient Management</div></div></div></header>
+<main class="max-w-5xl mx-auto px-6 py-10">
+    <div class="mb-8"><a href="/patients" class="text-sm text-blue-600">← กลับรายการผู้ป่วย</a><h1 class="text-3xl font-black mt-3" th:text="${patientRequest.id == null ? 'เพิ่มข้อมูลผู้ป่วย' : 'แก้ไขข้อมูลผู้ป่วย'}">เพิ่มข้อมูลผู้ป่วย</h1></div>
+    <form th:action="@{/patients}" th:object="${patientRequest}" method="post" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-7 space-y-6">
+        <input type="hidden" th:field="*{id}">
+        <div class="grid md:grid-cols-2 gap-5">
+            <div><label class="block text-sm font-bold mb-2">ชื่อ-นามสกุล</label><input th:field="*{name}" class="w-full rounded-xl border border-slate-200 px-4 py-3" required><p class="text-red-500 text-xs mt-1" th:errors="*{name}"></p></div>
+            <div><label class="block text-sm font-bold mb-2">เบอร์โทร</label><input th:field="*{phone}" class="w-full rounded-xl border border-slate-200 px-4 py-3" maxlength="10" required><p class="text-red-500 text-xs mt-1" th:errors="*{phone}"></p></div>
+            <div><label class="block text-sm font-bold mb-2">สิทธิการรักษา</label><select th:field="*{coverageType}" class="w-full rounded-xl border border-slate-200 px-4 py-3" required><option value="DIRECT_PAY">ชำระเอง</option><option value="SOCIAL_SECURITY">ประกันสังคม</option><option value="CIVIL_SERVANT">ข้าราชการ</option></select></div>
+            <div><label class="block text-sm font-bold mb-2">ผู้ติดต่อฉุกเฉิน</label><input th:field="*{emergencyContact}" class="w-full rounded-xl border border-slate-200 px-4 py-3" required><p class="text-red-500 text-xs mt-1" th:errors="*{emergencyContact}"></p></div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-5"><div><label class="block text-sm font-bold mb-2">ประวัติการรักษา</label><textarea th:field="*{medicalHistory}" rows="4" class="w-full rounded-xl border border-slate-200 px-4 py-3"></textarea></div><div><label class="block text-sm font-bold mb-2">ประวัติแพ้ยา/สาร</label><textarea th:field="*{allergies}" rows="4" class="w-full rounded-xl border border-slate-200 px-4 py-3"></textarea></div></div>
+        <div class="flex justify-end gap-3"><a href="/patients" class="px-5 py-3 rounded-xl border border-slate-200">ยกเลิก</a><button class="px-6 py-3 rounded-xl bg-blue-600 text-white font-bold" type="submit">บันทึกข้อมูล</button></div>
+    </form>
+</main>
+</body></html>
