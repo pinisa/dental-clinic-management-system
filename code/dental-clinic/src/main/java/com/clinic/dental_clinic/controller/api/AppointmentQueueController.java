@@ -50,4 +50,11 @@ public class AppointmentQueueController {
         QueueResponse response = queueService.cancelQueue(id);
         return ResponseEntity.ok(response);
     }
+
+    // --- เพิ่ม Method ลบคิวออกจาก Database ตรงนี้ ---
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteQueue(@PathVariable Long id) {
+        queueService.deleteQueue(id);
+        return ResponseEntity.noContent().build();
+    }
 }
