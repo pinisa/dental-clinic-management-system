@@ -133,8 +133,26 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
             throw new IllegalStateException("Completed queue cannot be cancelled.");
         }
 
+        if (queue.getStatus() == QueueStatus.CANCELLED) {
+            return AppointmentQueueMapper.toResponse(queue);
+        }
+
+        queue.setStatus(QueueStatus.CANCELLED);
+        AppointmentQueue updatedQueue = queueRepository.save(queue);
+        queueRepository.flush();
+        queueSubject.notifyObservers(updatedQueue.getQueueNumber(), QueueStatus.CANCELLED.name());
+        return AppointmentQueueMapper.toResponse(updatedQueue);
+    }
+
+    // --- ส่วนที่เพิ่มใหม่สำหรับ Hard Delete ---
+    @Override
+    @Transactional
+    public void deleteQueue(Long id) {
+        AppointmentQueue queue = queueRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Appointment queue not found with id: " + id));
+
         queueRepository.delete(queue);
+        queueRepository.flush();
         queueSubject.notifyObservers(queue.getQueueNumber(), QueueStatus.CANCELLED.name());
-        return AppointmentQueueMapper.toResponse(queue);
     }
 }

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.clinic.dental_clinic.DentalClinicApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.316 s -- in com.clinic.dental_clinic.DentalClinicApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.34 s -- in com.clinic.dental_clinic.DentalClinicApplicationTests
