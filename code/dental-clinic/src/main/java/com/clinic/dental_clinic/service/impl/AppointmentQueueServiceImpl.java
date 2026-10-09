@@ -137,11 +137,10 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
             return AppointmentQueueMapper.toResponse(queue);
         }
 
-        queue.setStatus(QueueStatus.CANCELLED);
-        AppointmentQueue updatedQueue = queueRepository.save(queue);
+        queueRepository.delete(queue);
         queueRepository.flush();
-        queueSubject.notifyObservers(updatedQueue.getQueueNumber(), QueueStatus.CANCELLED.name());
-        return AppointmentQueueMapper.toResponse(updatedQueue);
+        queueSubject.notifyObservers(queue.getQueueNumber(), QueueStatus.CANCELLED.name());
+        return AppointmentQueueMapper.toResponse(queue);
     }
 
     // --- ส่วนที่เพิ่มใหม่สำหรับ Hard Delete ---
