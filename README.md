@@ -6,9 +6,9 @@
 
 | ลำดับ | ชื่อ-นามสกุล | รหัสนักศึกษา | Section | Branch | หน้าที่รับผิดชอบ |
 |---|---|---|---|---|---|
-| 3 | นางสาวพินิสา สุทธมาตย์ | 6733805973-3 | Sec.3 | `pinisa_6733805973_03` | Patient Management, Database Design และ Pricing Strategy Pattern |
 | 1 | นายพชรดนัย สุดชาติ | 6733805931-1 | Sec.3 | `phacharadanai_6733805931_03` | Dentist & Appointment Management และ Observer Pattern |
 | 2 | นายชาคริต รุ่งเรืองงาม | 673380997-3 | Sec.3 | `chakhit_6733803997_03` | Queue & Treatment Management, Template Method Pattern และ System Integration |
+| 3 | นางสาวพินิสา สุทธมาตย์ | 6733805973-3 | Sec.3 | `pinisa_6733805973_03` | Patient Management, Database Design และ Pricing Strategy Pattern |
 
 ## System Architecture
 
@@ -44,35 +44,6 @@
 - `Dentist` กับ `TreatmentRecord` — เชื่อมโยงประวัติการรักษากับทันตแพทย์ผู้ให้บริการ
 
 ## File Ownership and Responsibilities
-
-### Pinisa: Patient Management & Pricing Strategy
-
-**Entity และ Repository**
-- `domain/entity/Patient.java`
-- `domain/entity/PatientProfile.java`
-- `repository/PatientRepository.java`
-- `repository/PatientProfileRepository.java`
-
-**DTO และ Mapper**
-- `dto/request/PatientRequest.java`
-- `dto/response/PatientResponse.java`
-- `mapper/PatientMapper.java`
-
-**Service และ Controller**
-- `service/PatientService.java`
-- `service/impl/PatientServiceImpl.java`
-- `controller/PatientController.java`
-
-**Strategy Pattern**
-- `pattern/strategy/PricingStrategy.java`
-- `pattern/strategy/PricingContext.java`
-- `pattern/strategy/DirectPayStrategy.java`
-- `pattern/strategy/SocialSecurityStrategy.java`
-- `pattern/strategy/CivilServantStrategy.java`
-
-**Tests**
-- `src/test/java/com/clinic/dental_clinic/service/PatientServiceImplTest.java`
-- เพิ่ม unit tests สำหรับแต่ละ Pricing Strategy ตามเงื่อนไขที่กำหนด
 
 ### พชรดนัย: Dentist & Appointment Management / Observer Pattern
 
@@ -134,6 +105,35 @@
 **Tests**
 - `src/test/java/com/clinic/dental_clinic/service/AppointmentQueueServiceImplTest.java`
 - เพิ่ม tests สำหรับ Treatment Record และ Template Method ตามการทำงานที่พัฒนา
+
+### Pinisa: Patient Management & Pricing Strategy
+
+**Entity และ Repository**
+- `domain/entity/Patient.java`
+- `domain/entity/PatientProfile.java`
+- `repository/PatientRepository.java`
+- `repository/PatientProfileRepository.java`
+
+**DTO และ Mapper**
+- `dto/request/PatientRequest.java`
+- `dto/response/PatientResponse.java`
+- `mapper/PatientMapper.java`
+
+**Service และ Controller**
+- `service/PatientService.java`
+- `service/impl/PatientServiceImpl.java`
+- `controller/PatientController.java`
+
+**Strategy Pattern**
+- `pattern/strategy/PricingStrategy.java`
+- `pattern/strategy/PricingContext.java`
+- `pattern/strategy/DirectPayStrategy.java`
+- `pattern/strategy/SocialSecurityStrategy.java`
+- `pattern/strategy/CivilServantStrategy.java`
+
+**Tests**
+- `src/test/java/com/clinic/dental_clinic/service/PatientServiceImplTest.java`
+- เพิ่ม unit tests สำหรับแต่ละ Pricing Strategy ตามเงื่อนไขที่กำหนด
 
 ## Design Patterns
 
