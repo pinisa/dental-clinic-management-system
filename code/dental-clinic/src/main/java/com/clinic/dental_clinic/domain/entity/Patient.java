@@ -20,6 +20,9 @@ public class Patient {
     @Column(nullable = false, unique = true, length = 15)
     private String phone;
 
+    @Column(length = 255)
+    private String email;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "coverage_type", nullable = false)
     private PatientType coverageType;
@@ -42,10 +45,11 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(Long id, String name, String phone, PatientType coverageType, PatientProfile profile, List<AppointmentQueue> queues, List<TreatmentRecord> treatmentRecords) {
+    public Patient(Long id, String name, String phone, String email, PatientType coverageType, PatientProfile profile, List<AppointmentQueue> queues, List<TreatmentRecord> treatmentRecords) {
         this.id = id;
         this.name = name;
         this.phone = phone;
+        this.email = email;
         this.coverageType = coverageType;
         this.profile = profile;
         this.queues = queues != null ? queues : new ArrayList<>();
@@ -74,6 +78,14 @@ public class Patient {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public PatientType getCoverageType() {

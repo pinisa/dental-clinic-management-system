@@ -11,6 +11,7 @@ public class PatientMapper {
         Patient patient = new Patient();
         patient.setName(request.getName());
         patient.setPhone(request.getPhone());
+        patient.setEmail(request.getEmail());
         patient.setCoverageType(request.getCoverageType());
 
         PatientProfile profile = new PatientProfile();
@@ -29,6 +30,7 @@ public class PatientMapper {
                 patient.getId(),
                 patient.getName(),
                 patient.getPhone(),
+                patient.getEmail(),
                 patient.getCoverageType(),
                 profile != null ? profile.getMedicalHistory() : null,
                 profile != null ? profile.getAllergies() : null,

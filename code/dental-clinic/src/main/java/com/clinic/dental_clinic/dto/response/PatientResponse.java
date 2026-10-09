@@ -7,6 +7,7 @@ public class PatientResponse {
     private Long id;
     private String name;
     private String phone;
+    private String email;
     private PatientType coverageType;
     private String medicalHistory;
     private String allergies;
@@ -15,10 +16,11 @@ public class PatientResponse {
     public PatientResponse() {
     }
 
-    public PatientResponse(Long id, String name, String phone, PatientType coverageType, String medicalHistory, String allergies, String emergencyContact) {
+    public PatientResponse(Long id, String name, String phone, String email, PatientType coverageType, String medicalHistory, String allergies, String emergencyContact) {
         this.id = id;
         this.name = name;
         this.phone = phone;
+        this.email = email;
         this.coverageType = coverageType;
         this.medicalHistory = medicalHistory;
         this.allergies = allergies;
@@ -47,6 +49,14 @@ public class PatientResponse {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public PatientType getCoverageType() {

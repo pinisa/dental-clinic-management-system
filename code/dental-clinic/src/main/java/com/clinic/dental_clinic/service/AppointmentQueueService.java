@@ -11,4 +11,5 @@ public interface AppointmentQueueService {
     Page<QueueResponse> getAllQueues(Pageable pageable);
     Long suggestDentistId(String serviceType);
     QueueResponse updateQueueStatus(Long id, String statusStr);
+    QueueResponse cancelQueue(Long id);
 }

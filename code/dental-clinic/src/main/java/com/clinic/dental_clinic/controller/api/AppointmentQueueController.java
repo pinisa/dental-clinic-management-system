@@ -44,4 +44,10 @@ public class AppointmentQueueController {
         QueueResponse response = queueService.updateQueueStatus(id, status);
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<QueueResponse> cancelQueue(@PathVariable Long id) {
+        QueueResponse response = queueService.cancelQueue(id);
+        return ResponseEntity.ok(response);
+    }
 }

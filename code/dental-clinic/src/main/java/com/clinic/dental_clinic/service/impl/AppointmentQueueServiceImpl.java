@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class AppointmentQueueServiceImpl implements AppointmentQueueService {
@@ -52,7 +53,6 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
         Dentist dentist = dentistRepository.findById(request.getDentistId())
                 .orElseThrow(() -> new ResourceNotFoundException("Dentist not found with id: " + request.getDentistId()));
 
-        // คำนวณราคาสุทธิโดยใช้ Strategy Pattern ผ่าน PricingContext
         Double finalPrice = pricingContext.calculateFinalPrice(patient.getCoverageType(), request.getBasePrice());
 
         AppointmentQueue queue = new AppointmentQueue();
@@ -66,6 +66,7 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
         queue.setDentist(dentist);
 
         AppointmentQueue savedQueue = queueRepository.save(queue);
+        queueSubject.notifyObservers(savedQueue.getQueueNumber(), savedQueue.getStatus().name());
         return AppointmentQueueMapper.toResponse(savedQueue);
     }
 
@@ -94,7 +95,15 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
     @Override
     @Transactional(readOnly = true)
     public Page<QueueResponse> getAllQueues(Pageable pageable) {
-        return queueRepository.findAll(pageable).map(AppointmentQueueMapper::toResponse);
+        Page<AppointmentQueue> allQueues = queueRepository.findAll(pageable);
+        List<AppointmentQueue> activeQueues = allQueues.getContent().stream()
+                .filter(queue -> queue.getStatus() != QueueStatus.CANCELLED)
+                .toList();
+        return new org.springframework.data.domain.PageImpl<>(
+                activeQueues.stream().map(AppointmentQueueMapper::toResponse).toList(),
+                pageable,
+                activeQueues.size()
+        );
     }
 
     @Override
@@ -104,14 +113,28 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment queue not found with id: " + id));
 
         try {
-            QueueStatus status = QueueStatus.valueOf(statusStr.toUpperCase());
-            queue.setStatus(status);
+            QueueStatus targetStatus = QueueStatus.valueOf(statusStr.toUpperCase());
+            queue.setStatus(targetStatus);
+            AppointmentQueue updatedQueue = queueRepository.save(queue);
+            queueSubject.notifyObservers(updatedQueue.getQueueNumber(), updatedQueue.getStatus().name());
+            return AppointmentQueueMapper.toResponse(updatedQueue);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid queue status: " + statusStr);
         }
+    }
 
-        AppointmentQueue updatedQueue = queueRepository.save(queue);
-        queueSubject.notifyObservers(updatedQueue.getQueueNumber(), updatedQueue.getStatus().name());
-        return AppointmentQueueMapper.toResponse(updatedQueue);
+    @Override
+    @Transactional
+    public QueueResponse cancelQueue(Long id) {
+        AppointmentQueue queue = queueRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Appointment queue not found with id: " + id));
+
+        if (queue.getStatus() == QueueStatus.COMPLETED) {
+            throw new IllegalStateException("Completed queue cannot be cancelled.");
+        }
+
+        queueRepository.delete(queue);
+        queueSubject.notifyObservers(queue.getQueueNumber(), QueueStatus.CANCELLED.name());
+        return AppointmentQueueMapper.toResponse(queue);
     }
 }

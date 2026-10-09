@@ -80,6 +80,18 @@
                         <p class="text-[11px] text-slate-400 mt-1.5">ถ้ามีข้อมูลอยู่แล้ว ระบบจะใช้ข้อมูลผู้ป่วยเดิม</p>
                     </div>
                     <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1.5">อีเมล</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="email" th:field="*{email}"
+                                   class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                   placeholder="example@clinic.com">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
                         <label class="block text-sm font-bold text-slate-700 mb-1.5">เบอร์ติดต่อฉุกเฉิน</label>
                         <div class="relative">
                             <i class="fa-solid fa-phone-volume absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -98,6 +110,7 @@
                             <div class="border border-slate-200 rounded-xl p-4 peer-checked:border-blue-500 peer-checked:ring-2 peer-checked:ring-blue-100 hover:bg-slate-50 transition">
                                 <i class="fa-solid fa-wallet text-blue-600"></i>
                                 <div class="font-bold text-sm mt-2">ชำระเอง</div>
+                                <div class="text-[10px] text-slate-400 mt-1">ส่วนลด 0%</div>
                             </div>
                         </label>
                         <label class="cursor-pointer">
@@ -105,6 +118,7 @@
                             <div class="border border-slate-200 rounded-xl p-4 peer-checked:border-teal-500 peer-checked:ring-2 peer-checked:ring-teal-100 hover:bg-slate-50 transition">
                                 <i class="fa-solid fa-shield-heart text-teal-600"></i>
                                 <div class="font-bold text-sm mt-2">ประกันสังคม</div>
+                                <div class="text-[10px] text-slate-400 mt-1">ส่วนลด 10%</div>
                             </div>
                         </label>
                         <label class="cursor-pointer">
@@ -112,8 +126,24 @@
                             <div class="border border-slate-200 rounded-xl p-4 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-100 hover:bg-slate-50 transition">
                                 <i class="fa-solid fa-id-badge text-indigo-600"></i>
                                 <div class="font-bold text-sm mt-2">ข้าราชการ</div>
+                                <div class="text-[10px] text-slate-400 mt-1">ส่วนลด 20%</div>
                             </div>
                         </label>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4">
+                    <div class="flex items-center justify-between text-sm text-slate-500">
+                        <span>ราคาก่อนส่วนลด</span>
+                        <span id="baseAmount" class="font-semibold text-slate-700">0 บาท</span>
+                    </div>
+                    <div class="flex items-center justify-between text-sm text-slate-500 mt-2">
+                        <span>สิทธิที่เลือก</span>
+                        <span id="coverageLabel" class="font-semibold text-slate-700">ยังไม่ได้เลือก</span>
+                    </div>
+                    <div class="flex items-center justify-between text-sm text-slate-500 mt-2 pt-2 border-t border-slate-200">
+                        <span>ราคาสุทธิ</span>
+                        <span id="finalAmount" class="font-bold text-blue-700">0 บาท</span>
                     </div>
                 </div>
 
@@ -187,6 +217,11 @@
                     <li class="flex gap-2"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i><span>ระบบจะจัดทันตแพทย์ให้อัตโนมัติ</span></li>
                 </ul>
             </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 p-5">
+                <h3 class="font-bold text-sm text-slate-800 mb-3">คิวที่อยู่ในระบบ</h3>
+                <p class="text-3xl font-black text-slate-900" th:text="${queueCount != null ? queueCount : 0}">0</p>
+            </div>
         </aside>
     </div>
 </main>
@@ -195,6 +230,36 @@
     const cards = document.querySelectorAll('.service-card');
     const serviceType = document.getElementById('serviceType');
     const basePrice = document.getElementById('basePrice');
+    const coverageRadios = document.querySelectorAll('input[name="coverageType"]');
+    const baseAmount = document.getElementById('baseAmount');
+    const finalAmount = document.getElementById('finalAmount');
+    const coverageLabel = document.getElementById('coverageLabel');
+
+    const discountByType = {
+        DIRECT_PAY: 0,
+        SOCIAL_SECURITY: 0.10,
+        CIVIL_SERVANT: 0.20
+    };
+
+    function formatMoney(value) {
+        return new Intl.NumberFormat('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) + ' บาท';
+    }
+
+    function updatePricingSummary() {
+        const amount = Number(basePrice.value || 0);
+        const selectedCoverage = document.querySelector('input[name="coverageType"]:checked');
+        const coverageType = selectedCoverage ? selectedCoverage.value : null;
+        const discount = coverageType ? discountByType[coverageType] || 0 : 0;
+        const final = amount * (1 - discount);
+
+        baseAmount.textContent = formatMoney(amount);
+        coverageLabel.textContent = coverageType ? {
+            DIRECT_PAY: 'ชำระเอง',
+            SOCIAL_SECURITY: 'ประกันสังคม',
+            CIVIL_SERVANT: 'ข้าราชการ'
+        }[coverageType] : 'ยังไม่ได้เลือก';
+        finalAmount.textContent = formatMoney(final);
+    }
 
     function selectService(card) {
         cards.forEach(c => {
@@ -203,14 +268,17 @@
         card.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
         serviceType.value = card.dataset.service;
         basePrice.value = card.dataset.price;
+        updatePricingSummary();
     }
 
     cards.forEach(card => card.addEventListener('click', () => selectService(card)));
+    coverageRadios.forEach(radio => radio.addEventListener('change', updatePricingSummary));
 
     if (serviceType.value) {
         const selected = [...cards].find(c => c.dataset.service === serviceType.value);
         if (selected) selectService(selected);
     }
+    updatePricingSummary();
 </script>
 </body>
 </html>
