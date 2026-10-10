@@ -52,7 +52,18 @@ public class TreatmentRecordServiceImpl implements TreatmentRecordService {
         AppointmentQueue queue = appointmentQueueRepository.findById(request.getAppointmentQueueId())
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment queue not found with id: " + request.getAppointmentQueueId()));
 
-        // เปลี่ยนสถานะของคิวนัดหมายเป็น COMPLETED เมื่อทำการบันทึกการรักษา
+        if (queue.getPatient() == null || queue.getDentist() == null
+                || !queue.getPatient().getId().equals(patient.getId())
+                || !queue.getDentist().getId().equals(dentist.getId())) {
+            throw new IllegalArgumentException("ผู้ป่วยและทันตแพทย์ต้องตรงกับข้อมูลของคิวที่เลือก");
+        }
+        if (treatmentRecordRepository.existsByAppointmentQueueId(queue.getId())) {
+            throw new IllegalArgumentException("คิวนี้มีประวัติการรักษาแล้ว");
+        }
+        if (queue.getStatus() == QueueStatus.CANCELLED) {
+            throw new IllegalArgumentException("ไม่สามารถบันทึกการรักษาของคิวที่ยกเลิกแล้วได้");
+        }
+        // Mark the queue completed only as part of the same transaction as the treatment record.
         queue.setStatus(QueueStatus.COMPLETED);
         appointmentQueueRepository.save(queue);
 

@@ -32,7 +32,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override @Transactional
     public AppointmentResponse create(AppointmentRequest request) {
-        if (appointmentRepository.existsByDentistIdAndAppointmentDateTime(request.getDentistId(), request.getAppointmentDateTime())) {
+        if (appointmentRepository.existsByDentistIdAndAppointmentDateTimeAndStatusNot(request.getDentistId(), request.getAppointmentDateTime(), com.clinic.dental_clinic.domain.enums.QueueStatus.CANCELLED)) {
             throw new ResourceConflictException("Dentist already has an appointment at this time");
         }
         Patient patient = patientRepository.findById(request.getPatientId())
@@ -69,7 +69,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentResponse update(Long id, AppointmentRequest request) {
         Appointment a = appointmentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + id));
-        if (appointmentRepository.existsByDentistIdAndAppointmentDateTimeAndIdNot(request.getDentistId(), request.getAppointmentDateTime(), id)) {
+        if (appointmentRepository.existsByDentistIdAndAppointmentDateTimeAndIdNotAndStatusNot(request.getDentistId(), request.getAppointmentDateTime(), id, com.clinic.dental_clinic.domain.enums.QueueStatus.CANCELLED)) {
             throw new ResourceConflictException("Dentist already has an appointment at this time");
         }
         Patient patient = patientRepository.findById(request.getPatientId())

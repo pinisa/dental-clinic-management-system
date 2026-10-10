@@ -56,7 +56,7 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
         Double finalPrice = pricingContext.calculateFinalPrice(patient.getCoverageType(), request.getBasePrice());
 
         AppointmentQueue queue = new AppointmentQueue();
-        queue.setQueueNumber("Q-" + System.currentTimeMillis() % 10000);
+        queue.setQueueNumber("Q-" + java.time.LocalDate.now().toString().replace("-", "") + "-" + java.util.UUID.randomUUID().toString().substring(0, 6).toUpperCase());
         queue.setServiceType(request.getServiceType());
         queue.setBasePrice(request.getBasePrice());
         queue.setFinalPrice(finalPrice);
@@ -95,15 +95,7 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
     @Override
     @Transactional(readOnly = true)
     public Page<QueueResponse> getAllQueues(Pageable pageable) {
-        Page<AppointmentQueue> allQueues = queueRepository.findAll(pageable);
-        List<AppointmentQueue> activeQueues = allQueues.getContent().stream()
-                .filter(queue -> queue.getStatus() != QueueStatus.CANCELLED)
-                .toList();
-        return new org.springframework.data.domain.PageImpl<>(
-                activeQueues.stream().map(AppointmentQueueMapper::toResponse).toList(),
-                pageable,
-                activeQueues.size()
-        );
+        return queueRepository.findAll(pageable).map(AppointmentQueueMapper::toResponse);
     }
 
     @Override
@@ -137,10 +129,10 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
             return AppointmentQueueMapper.toResponse(queue);
         }
 
-        queueRepository.delete(queue);
-        queueRepository.flush();
-        queueSubject.notifyObservers(queue.getQueueNumber(), QueueStatus.CANCELLED.name());
-        return AppointmentQueueMapper.toResponse(queue);
+        queue.setStatus(QueueStatus.CANCELLED);
+        AppointmentQueue saved = queueRepository.save(queue);
+        queueSubject.notifyObservers(saved.getQueueNumber(), QueueStatus.CANCELLED.name());
+        return AppointmentQueueMapper.toResponse(saved);
     }
 
     // --- ส่วนที่เพิ่มใหม่สำหรับ Hard Delete ---
@@ -150,8 +142,11 @@ public class AppointmentQueueServiceImpl implements AppointmentQueueService {
         AppointmentQueue queue = queueRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment queue not found with id: " + id));
 
-        queueRepository.delete(queue);
-        queueRepository.flush();
+        if (queue.getStatus() == QueueStatus.COMPLETED) {
+            throw new IllegalStateException("Completed queue cannot be cancelled.");
+        }
+        queue.setStatus(QueueStatus.CANCELLED);
+        queueRepository.save(queue);
         queueSubject.notifyObservers(queue.getQueueNumber(), QueueStatus.CANCELLED.name());
     }
 }

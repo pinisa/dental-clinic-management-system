@@ -61,9 +61,10 @@ class AppointmentServiceImplTest {
 
         when(
                 appointmentRepository
-                        .existsByDentistIdAndAppointmentDateTime(
+                        .existsByDentistIdAndAppointmentDateTimeAndStatusNot(
                                 2L,
-                                request.getAppointmentDateTime()
+                                request.getAppointmentDateTime(),
+                                com.clinic.dental_clinic.domain.enums.QueueStatus.CANCELLED
                         )
         ).thenReturn(false);
 
@@ -110,9 +111,10 @@ class AppointmentServiceImplTest {
 
         when(
                 appointmentRepository
-                        .existsByDentistIdAndAppointmentDateTime(
+                        .existsByDentistIdAndAppointmentDateTimeAndStatusNot(
                                 2L,
-                                request.getAppointmentDateTime()
+                                request.getAppointmentDateTime(),
+                                com.clinic.dental_clinic.domain.enums.QueueStatus.CANCELLED
                         )
         ).thenReturn(true);
 

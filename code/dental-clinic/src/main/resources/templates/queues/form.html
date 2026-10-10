@@ -1,284 +1,730 @@
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="th" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0f172a">
     <title>จองคิวรักษาฟัน | DentalProtect</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="bg-slate-50 font-sans antialiased text-slate-800">
 
-<nav class="bg-slate-900 text-white shadow-md sticky top-0 z-50 border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <a href="/" class="flex items-center space-x-3 group">
-                <div class="bg-gradient-to-tr from-blue-600 to-teal-400 p-2 rounded-xl shadow-md group-hover:scale-105 transition">
-                    <img src="/images/tooth-logo.svg" alt="DentalProtect" class="w-8 h-8">
-                </div>
-                <div>
-                    <span class="font-bold text-xl tracking-wide bg-gradient-to-r from-white via-slate-100 to-blue-200 bg-clip-text text-transparent">DentalProtect</span>
-                    <span class="text-[10px] text-teal-400 block -mt-1 uppercase tracking-widest font-semibold">Dental Clinic</span>
-                </div>
-            </a>
-            <div class="hidden md:flex items-center space-x-2">
-                <a href="/" class="text-slate-300 hover:bg-slate-800 hover:text-white px-4 py-2 rounded-xl text-sm font-medium transition">หน้าแรก</a>
-                <a href="/queues/new" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow-sm">จองคิว</a>
-                <a href="/queues" class="text-slate-300 hover:bg-slate-800 hover:text-white px-4 py-2 rounded-xl text-sm font-medium transition">ตรวจสอบคิว</a>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --navy: #0f172a;
+            --blue: #2563eb;
+            --teal: #0d9488;
+            --muted: #64748b;
+            --line: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         Tahoma, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, .96);
+            border: 1px solid rgba(226, 232, 240, .9);
+            box-shadow: 0 8px 30px rgba(15, 23, 42, .045);
+        }
+
+        .form-control {
+            width: 100%;
+            min-height: 46px;
+            border: 1px solid #dbe3ee;
+            border-radius: 12px;
+            background: #fff;
+            padding: 11px 13px;
+            color: #1e293b;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .18s, box-shadow .18s;
+        }
+
+        .form-control:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, .12);
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 7px;
+            color: #334155;
+            font-size: 13px;
+            font-weight: 750;
+        }
+
+        .service-card,
+        .coverage-card {
+            position: relative;
+            display: block;
+            height: 100%;
+            cursor: pointer;
+            border: 1px solid var(--line);
+            border-radius: 15px;
+            background: white;
+            padding: 16px;
+            transition: border-color .18s, background .18s, box-shadow .18s;
+        }
+
+        .service-card:hover,
+        .coverage-card:hover {
+            border-color: #93c5fd;
+            background: #f8fbff;
+        }
+
+        .service-card.selected {
+            border-color: #2563eb;
+            background: #eff6ff;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, .12);
+        }
+
+        .coverage-card.selected {
+            border-color: #0d9488;
+            background: #f0fdfa;
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, .1);
+        }
+
+        .service-card:focus-within,
+        .coverage-card:focus-within {
+            outline: 2px solid #60a5fa;
+            outline-offset: 2px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .summary-value {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .required-mark {
+            color: #dc2626;
+        }
+
+        .error-box {
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            background: #fef2f2;
+            color: #b91c1c;
+            padding: 13px 15px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 640px) {
+            .summary-value {
+                white-space: normal;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-slate-50 text-slate-800">
+
+<!-- Navigation -->
+<nav class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950 text-white shadow-lg">
+    <div class="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <a href="/" class="flex min-w-0 items-center gap-3">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-teal-400 shadow-lg">
+                <img src="/images/tooth-logo.svg" alt="" class="h-7 w-7">
             </div>
+            <div class="min-w-0">
+                <div class="truncate text-lg font-black tracking-tight sm:text-xl">
+                    DentalProtect
+                </div>
+                <div class="text-[10px] font-semibold uppercase tracking-[.2em] text-teal-300">
+                    Dental Clinic
+                </div>
+            </div>
+        </a>
+
+        <div class="hidden items-center gap-2 md:flex">
+            <a href="/" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white">
+                หน้าแรก
+            </a>
+            <a href="/queues/new" aria-current="page" class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow">
+                จองคิว
+            </a>
+            <a href="/queues" class="rounded-xl px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white">
+                ตรวจสอบคิว
+            </a>
         </div>
+    </div>
+
+    <div class="flex gap-2 overflow-x-auto border-t border-white/10 px-4 py-2 md:hidden">
+        <a href="/" class="shrink-0 rounded-lg px-3 py-2 text-xs text-slate-300">หน้าแรก</a>
+        <a href="/queues/new" class="shrink-0 rounded-lg bg-blue-600 px-3 py-2 text-xs font-bold">จองคิว</a>
+        <a href="/queues" class="shrink-0 rounded-lg px-3 py-2 text-xs text-slate-300">ตรวจสอบคิว</a>
     </div>
 </nav>
 
-<main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="mb-7">
-        <a href="/" class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 transition mb-4">
-            <i class="fa-solid fa-arrow-left"></i><span>กลับหน้าแรก</span>
+<main class="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
+
+    <!-- Page heading -->
+    <header class="mb-8">
+        <a href="/" class="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition hover:text-blue-600">
+            <i class="fa-solid fa-arrow-left"></i>
+            กลับหน้าแรก
         </a>
+
         <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md shrink-0">
-                <i class="fa-solid fa-calendar-plus text-lg"></i>
+            <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20">
+                <i class="fa-solid fa-calendar-plus text-xl"></i>
             </div>
             <div>
-                <h1 class="text-2xl md:text-3xl font-black text-slate-800">จองคิวรักษาฟัน</h1>
-                <p class="text-sm text-slate-500 mt-1">กรอกข้อมูลด้านล่างเพื่อสร้างรายการจองและรับหมายเลขคิว</p>
+                <p class="mb-1 text-xs font-extrabold uppercase tracking-[.18em] text-blue-600">
+                    BOOK AN APPOINTMENT QUEUE
+                </p>
+                <h1 class="text-2xl font-black tracking-tight text-slate-900 sm:text-3xl">
+                    จองคิวรักษาฟัน
+                </h1>
+                <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+                    กรอกข้อมูลผู้รับบริการ เลือกสิทธิการรักษาและบริการ
+                    เพื่อตรวจสอบราคาประเมินก่อนยืนยันการจอง
+                </p>
             </div>
         </div>
-    </div>
+    </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 md:p-8">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-600 text-white text-sm font-bold">1</div>
-                <div>
-                    <h2 class="font-bold text-slate-800">ข้อมูลการจอง</h2>
-                    <p class="text-xs text-slate-400">ระบุข้อมูลผู้รับบริการและรายการรักษา</p>
+    <form th:action="@{/queues}"
+          th:object="${queueRequest}"
+          method="post"
+          class="grid grid-cols-1 items-start gap-6 lg:grid-cols-3">
+
+        <!-- Main form -->
+        <section class="glass-card space-y-8 rounded-3xl p-5 sm:p-8 lg:col-span-2">
+
+            <!-- Patient information -->
+            <div>
+                <div class="mb-5 flex items-center gap-3">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-sm font-black text-blue-700">01</div>
+                    <div>
+                        <h2 class="font-extrabold text-slate-900">ข้อมูลผู้รับบริการ</h2>
+                        <p class="mt-1 text-xs text-slate-500">ข้อมูลติดต่อสำหรับการจองคิว</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label for="patientName" class="field-label">
+                            ชื่อและนามสกุล <span class="required-mark">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input id="patientName"
+                                   type="text"
+                                   th:field="*{patientName}"
+                                   autocomplete="name"
+                                   maxlength="150"
+                                   class="form-control pl-11"
+                                   placeholder="กรอกชื่อและนามสกุล"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div>
+                            <label for="phone" class="field-label">
+                                เบอร์โทรศัพท์ <span class="required-mark">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input id="phone"
+                                       type="tel"
+                                       th:field="*{phone}"
+                                       autocomplete="tel"
+                                       inputmode="tel"
+                                       maxlength="10"
+                                       pattern="[0-9]{9,10}"
+                                       class="form-control pl-11"
+                                       placeholder="08XXXXXXXX"
+                                       required>
+                            </div>
+                            <p class="mt-1.5 text-[11px] leading-5 text-slate-400">
+                                หากมีข้อมูลอยู่แล้ว ระบบอาจใช้ข้อมูลผู้ป่วยเดิม
+                            </p>
+                        </div>
+
+                        <div>
+                            <label for="email" class="field-label">อีเมล</label>
+                            <div class="relative">
+                                <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                                <input id="email"
+                                       type="email"
+                                       th:field="*{email}"
+                                       autocomplete="email"
+                                       maxlength="150"
+                                       class="form-control pl-11"
+                                       placeholder="example@email.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="emergencyContact" class="field-label">
+                            เบอร์ติดต่อฉุกเฉิน <span class="required-mark">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fa-solid fa-phone-volume absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input id="emergencyContact"
+                                   type="tel"
+                                   th:field="*{emergencyContact}"
+                                   maxlength="100"
+                                   class="form-control pl-11"
+                                   placeholder="เบอร์ติดต่อกรณีฉุกเฉิน"
+                                   required>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <form th:action="@{/queues}" th:object="${queueRequest}" method="post" class="space-y-5">
+            <div class="border-t border-slate-100"></div>
 
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1.5">ชื่อผู้รับบริการ</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" th:field="*{patientName}"
-                               class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                               placeholder="เช่น พินิสา สุทธมาตย์" required>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Coverage selection -->
+            <div>
+                <div class="mb-5 flex items-center gap-3">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50 text-sm font-black text-teal-700">02</div>
                     <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1.5">เบอร์โทรศัพท์</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="tel" th:field="*{phone}" maxlength="10"
-                                   class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                                   placeholder="08XXXXXXXX" required>
+                        <h2 class="font-extrabold text-slate-900">สิทธิการรักษา</h2>
+                        <p class="mt-1 text-xs text-slate-500">เลือกสิทธิที่ต้องการใช้ในการประเมินราคา</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+
+                    <label class="coverage-card">
+                        <input type="radio"
+                               th:field="*{coverageType}"
+                               value="DIRECT_PAY"
+                               class="sr-only"
+                               required>
+                        <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+                            <i class="fa-solid fa-wallet"></i>
                         </div>
-                        <p class="text-[11px] text-slate-400 mt-1.5">ถ้ามีข้อมูลอยู่แล้ว ระบบจะใช้ข้อมูลผู้ป่วยเดิม</p>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1.5">อีเมล</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="email" th:field="*{email}"
-                                   class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                                   placeholder="example@clinic.com">
+                        <div class="font-extrabold text-sm text-slate-800">ชำระเอง</div>
+                        <div class="mt-1 text-xs text-slate-500">ไม่มีส่วนลดตามสิทธิ</div>
+                    </label>
+
+                    <label class="coverage-card">
+                        <input type="radio"
+                               th:field="*{coverageType}"
+                               value="SOCIAL_SECURITY"
+                               class="sr-only">
+                        <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
+                            <i class="fa-solid fa-shield-heart"></i>
                         </div>
-                    </div>
-                </div>
+                        <div class="font-extrabold text-sm text-slate-800">ประกันสังคม</div>
+                        <div class="mt-1 text-xs text-slate-500">ตรวจสอบสิทธิและเงื่อนไข</div>
+                    </label>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-1.5">เบอร์ติดต่อฉุกเฉิน</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-phone-volume absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="tel" th:field="*{emergencyContact}" maxlength="100"
-                                   class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                                   placeholder="เบอร์สำหรับติดต่อกรณีฉุกเฉิน" required>
+                    <label class="coverage-card">
+                        <input type="radio"
+                               th:field="*{coverageType}"
+                               value="CIVIL_SERVANT"
+                               class="sr-only">
+                        <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700">
+                            <i class="fa-solid fa-id-card"></i>
                         </div>
-                    </div>
-                </div>
+                        <div class="font-extrabold text-sm text-slate-800">ข้าราชการ</div>
+                        <div class="mt-1 text-xs text-slate-500">ตรวจสอบสิทธิและเงื่อนไข</div>
+                    </label>
 
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-2">สิทธิการรักษา</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <label class="cursor-pointer">
-                            <input type="radio" th:field="*{coverageType}" value="DIRECT_PAY" class="peer sr-only" required>
-                            <div class="border border-slate-200 rounded-xl p-4 peer-checked:border-blue-500 peer-checked:ring-2 peer-checked:ring-blue-100 hover:bg-slate-50 transition">
-                                <i class="fa-solid fa-wallet text-blue-600"></i>
-                                <div class="font-bold text-sm mt-2">ชำระเอง</div>
-                                <div class="text-[10px] text-slate-400 mt-1">ส่วนลด 0%</div>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" th:field="*{coverageType}" value="SOCIAL_SECURITY" class="peer sr-only">
-                            <div class="border border-slate-200 rounded-xl p-4 peer-checked:border-teal-500 peer-checked:ring-2 peer-checked:ring-teal-100 hover:bg-slate-50 transition">
-                                <i class="fa-solid fa-shield-heart text-teal-600"></i>
-                                <div class="font-bold text-sm mt-2">ประกันสังคม</div>
-                                <div class="text-[10px] text-slate-400 mt-1">ส่วนลด 10%</div>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer">
-                            <input type="radio" th:field="*{coverageType}" value="CIVIL_SERVANT" class="peer sr-only">
-                            <div class="border border-slate-200 rounded-xl p-4 peer-checked:border-indigo-500 peer-checked:ring-2 peer-checked:ring-indigo-100 hover:bg-slate-50 transition">
-                                <i class="fa-solid fa-id-badge text-indigo-600"></i>
-                                <div class="font-bold text-sm mt-2">ข้าราชการ</div>
-                                <div class="text-[10px] text-slate-400 mt-1">ส่วนลด 20%</div>
-                            </div>
-                        </label>
-                    </div>
                 </div>
-
-                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4">
-                    <div class="flex items-center justify-between text-sm text-slate-500">
-                        <span>ราคาก่อนส่วนลด</span>
-                        <span id="baseAmount" class="font-semibold text-slate-700">0 บาท</span>
-                    </div>
-                    <div class="flex items-center justify-between text-sm text-slate-500 mt-2">
-                        <span>สิทธิที่เลือก</span>
-                        <span id="coverageLabel" class="font-semibold text-slate-700">ยังไม่ได้เลือก</span>
-                    </div>
-                    <div class="flex items-center justify-between text-sm text-slate-500 mt-2 pt-2 border-t border-slate-200">
-                        <span>ราคาสุทธิ</span>
-                        <span id="finalAmount" class="font-bold text-blue-700">0 บาท</span>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-2">เลือกรายการรักษา</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <button type="button" data-service="CLEANING" data-price="900"
-                                class="service-card text-left border border-slate-200 rounded-xl p-4 hover:border-blue-400 hover:bg-blue-50/50 transition">
-                            <i class="fa-solid fa-tooth text-blue-600"></i>
-                            <div class="font-bold text-sm mt-2">ขูดหินปูน</div>
-                            <div class="text-xs text-slate-400 mt-1">900 บาท</div>
-                        </button>
-                        <button type="button" data-service="FILLING" data-price="800"
-                                class="service-card text-left border border-slate-200 rounded-xl p-4 hover:border-teal-400 hover:bg-teal-50/50 transition">
-                            <i class="fa-solid fa-teeth text-teal-600"></i>
-                            <div class="font-bold text-sm mt-2">อุดฟัน</div>
-                            <div class="text-xs text-slate-400 mt-1">800 บาท</div>
-                        </button>
-                        <button type="button" data-service="EXTRACTION" data-price="1200"
-                                class="service-card text-left border border-slate-200 rounded-xl p-4 hover:border-indigo-400 hover:bg-indigo-50/50 transition">
-                            <i class="fa-solid fa-user-doctor text-indigo-600"></i>
-                            <div class="font-bold text-sm mt-2">ถอนฟัน / ผ่าฟันคุด</div>
-                            <div class="text-xs text-slate-400 mt-1">1,200 บาท</div>
-                        </button>
-                    </div>
-                    <select id="serviceType" th:field="*{serviceType}" class="hidden" required>
-                        <option value="">-- เลือก --</option>
-                        <option value="CLEANING">CLEANING</option>
-                        <option value="FILLING">FILLING</option>
-                        <option value="EXTRACTION">EXTRACTION</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1.5">ราคาประเมิน</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-baht-sign absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input id="basePrice" type="number" step="0.01" th:field="*{basePrice}"
-                               class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm font-semibold"
-                               placeholder="เลือกรายการรักษาด้านบน" readonly required>
-                    </div>
-                </div>
-
-                <div th:if="${#fields.hasErrors('*')}" class="rounded-xl bg-red-50 border border-red-100 p-4 text-sm text-red-700">
-                    <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
-                </div>
-
-                <div class="pt-3 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
-                    <a href="/" class="px-5 py-3 border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 text-sm font-semibold transition text-center">ยกเลิก</a>
-                    <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition">
-                        <i class="fa-solid fa-ticket mr-2"></i>ยืนยันการจองคิว
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <aside class="space-y-4">
-            <div class="bg-gradient-to-br from-slate-900 to-blue-950 text-white rounded-2xl p-6 shadow-lg">
-                <div class="w-11 h-11 rounded-xl bg-white/10 flex items-center justify-center mb-4">
-                    <img src="/images/tooth-logo.svg" alt="" class="w-7 h-7">
-                </div>
-                <h3 class="font-bold text-lg">การจองคิว</h3>
-                <p class="text-sm text-slate-300 mt-2 leading-relaxed">หลังจากกดยืนยัน ระบบจะสร้างหมายเลขคิว จัดทันตแพทย์ให้เหมาะกับบริการ และแสดงหน้าจอยืนยันการจอง</p>
             </div>
 
-            <div class="bg-white rounded-2xl border border-slate-200 p-5">
-                <h3 class="font-bold text-sm text-slate-800 mb-3">ก่อนกดยืนยัน</h3>
-                <ul class="space-y-3 text-xs text-slate-500">
-                    <li class="flex gap-2"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i><span>กรอกชื่อและเบอร์โทรศัพท์ให้ถูกต้อง</span></li>
-                    <li class="flex gap-2"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i><span>เลือกสิทธิการรักษาและบริการที่ต้องการ</span></li>
-                    <li class="flex gap-2"><i class="fa-solid fa-circle-check text-emerald-500 mt-0.5"></i><span>ระบบจะจัดทันตแพทย์ให้อัตโนมัติ</span></li>
+            <div class="border-t border-slate-100"></div>
+
+            <!-- Service selection -->
+            <div>
+                <div class="mb-5 flex items-center gap-3">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-sm font-black text-indigo-700">03</div>
+                    <div>
+                        <h2 class="font-extrabold text-slate-900">เลือกรายการบริการ</h2>
+                        <p class="mt-1 text-xs text-slate-500">ราคาที่แสดงเป็นราคาเบื้องต้น ต้องยืนยันกับระบบอีกครั้ง</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+
+                    <label class="service-card">
+                        <input type="radio"
+                               name="serviceChoice"
+                               data-service="CLEANING"
+                               data-price="900"
+                               class="sr-only">
+                        <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+                            <i class="fa-solid fa-tooth"></i>
+                        </div>
+                        <div class="font-extrabold text-sm text-slate-800">ขูดหินปูน</div>
+                        <div class="mt-2 text-sm font-bold text-blue-700">900 บาท</div>
+                    </label>
+
+                    <label class="service-card">
+                        <input type="radio"
+                               name="serviceChoice"
+                               data-service="FILLING"
+                               data-price="800"
+                               class="sr-only">
+                        <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
+                            <i class="fa-solid fa-teeth"></i>
+                        </div>
+                        <div class="font-extrabold text-sm text-slate-800">อุดฟัน</div>
+                        <div class="mt-2 text-sm font-bold text-teal-700">800 บาท</div>
+                    </label>
+
+                    <label class="service-card">
+                        <input type="radio"
+                               name="serviceChoice"
+                               data-service="EXTRACTION"
+                               data-price="1200"
+                               class="sr-only">
+                        <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <div class="font-extrabold text-sm text-slate-800">ถอนฟัน / ผ่าฟันคุด</div>
+                        <div class="mt-2 text-sm font-bold text-indigo-700">1,200 บาท</div>
+                    </label>
+
+                </div>
+
+                <!-- Keep original request fields -->
+                <select id="serviceType"
+                        th:field="*{serviceType}"
+                        class="sr-only"
+                        required
+                        aria-label="รายการบริการ">
+                    <option value="">เลือกบริการ</option>
+                    <option value="CLEANING">CLEANING</option>
+                    <option value="FILLING">FILLING</option>
+                    <option value="EXTRACTION">EXTRACTION</option>
+                </select>
+
+                <div class="mt-4">
+                    <label for="basePrice" class="field-label">ราคาประเมินก่อนส่วนลด</label>
+                    <input id="basePrice"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           th:field="*{basePrice}"
+                           class="form-control bg-slate-50 font-bold"
+                           placeholder="เลือกรายการบริการด้านบน"
+                           readonly
+                           required>
+                    <p class="mt-1.5 text-[11px] text-slate-400">
+                        ระบบต้องตรวจสอบราคาอีกครั้งจากข้อมูลฝั่งเซิร์ฟเวอร์
+                    </p>
+                </div>
+            </div>
+
+            <!-- Validation messages -->
+            <div th:if="${#fields.hasErrors('*')}"
+                 class="error-box"
+                 role="alert">
+                <p class="mb-2 font-bold">กรุณาตรวจสอบข้อมูล</p>
+                <ul class="list-inside list-disc space-y-1">
+                    <li th:each="err : ${#fields.allErrors()}"
+                        th:text="${err}">
+                    </li>
                 </ul>
             </div>
 
-            <div class="bg-white rounded-2xl border border-slate-200 p-5">
-                <h3 class="font-bold text-sm text-slate-800 mb-3">คิวที่อยู่ในระบบ</h3>
-                <p class="text-3xl font-black text-slate-900" th:text="${queueCount != null ? queueCount : 0}">0</p>
+            <!-- Actions -->
+            <div class="flex flex-col-reverse gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:justify-end">
+                <a href="/"
+                   class="inline-flex min-h-12 items-center justify-center rounded-xl border border-slate-200 px-5 text-sm font-bold text-slate-600 transition hover:bg-slate-50">
+                    ยกเลิก
+                </a>
+
+                <button type="submit"
+                        class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 text-sm font-extrabold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700">
+                    <i class="fa-solid fa-ticket"></i>
+                    ยืนยันการจองคิว
+                </button>
             </div>
+
+        </section>
+
+        <!-- Right side -->
+        <aside class="space-y-5 lg:sticky lg:top-28">
+
+            <!-- Price summary -->
+            <section class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+                <div class="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-5 text-white">
+                    <div class="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-white/10">
+                        <i class="fa-solid fa-receipt text-lg"></i>
+                    </div>
+                    <h2 class="text-lg font-extrabold">สรุปค่าใช้จ่าย</h2>
+                    <p class="mt-1 text-xs leading-5 text-slate-300">
+                        ราคาประเมินตามบริการและสิทธิที่เลือก
+                    </p>
+                </div>
+
+                <div class="space-y-4 p-5">
+                    <div class="summary-row text-sm">
+                        <span class="text-slate-500">บริการ</span>
+                        <span id="summaryService" class="summary-value font-bold text-slate-800">
+                            ยังไม่ได้เลือก
+                        </span>
+                    </div>
+
+                    <div class="summary-row text-sm">
+                        <span class="text-slate-500">ราคาเต็ม</span>
+                        <span id="baseAmount" class="summary-value font-bold text-slate-800">
+                            0.00 บาท
+                        </span>
+                    </div>
+
+                    <div class="rounded-xl bg-emerald-50 p-3">
+                        <div class="summary-row text-sm">
+                            <span class="font-bold text-emerald-800">ส่วนลดที่ได้รับ</span>
+                            <span id="discountAmount" class="summary-value font-extrabold text-emerald-700">
+                                -0.00 บาท
+                            </span>
+                        </div>
+                        <p id="discountReason" class="mt-2 text-xs leading-5 text-emerald-800">
+                            เลือกสิทธิการรักษาเพื่อดูรายละเอียด
+                        </p>
+                    </div>
+
+                    <div class="summary-row text-sm">
+                        <span class="text-slate-500">สิทธิการรักษา</span>
+                        <span id="coverageLabel" class="summary-value font-bold text-slate-800">
+                            ยังไม่ได้เลือก
+                        </span>
+                    </div>
+
+                    <div class="border-t border-dashed border-slate-200 pt-4">
+                        <p class="text-xs font-bold text-slate-500">ยอดสุทธิประเมิน</p>
+                        <div id="finalAmount" class="mt-1 text-3xl font-black tracking-tight text-blue-700">
+                            0.00 บาท
+                        </div>
+                        <p class="mt-2 text-[11px] leading-5 text-slate-400">
+                            ยอดจริงจะยึดตามการคำนวณของระบบเมื่อยืนยันการจอง
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Booking instructions -->
+            <section class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div class="mb-4 flex items-center gap-3">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+                    <h2 class="font-extrabold text-slate-900">ก่อนยืนยันการจอง</h2>
+                </div>
+
+                <ul class="space-y-3 text-xs leading-5 text-slate-500">
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-circle-check mt-0.5 text-emerald-500"></i>
+                        <span>ตรวจสอบชื่อและเบอร์โทรศัพท์ให้ถูกต้อง</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-circle-check mt-0.5 text-emerald-500"></i>
+                        <span>เลือกสิทธิการรักษาที่ตรงกับสิทธิจริง</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-circle-check mt-0.5 text-emerald-500"></i>
+                        <span>ตรวจสอบบริการและราคาประเมินก่อนส่งข้อมูล</span>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Queue count -->
+            <section class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-bold text-slate-700">จำนวนคิวในระบบ</p>
+                        <p class="mt-1 text-xs text-slate-400">ข้อมูลจากระบบปัจจุบัน</p>
+                    </div>
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-amber-700">
+                        <i class="fa-solid fa-list-ol text-lg"></i>
+                    </div>
+                </div>
+                <p class="mt-3 text-3xl font-black text-slate-900"
+                   th:text="${queueCount != null ? queueCount : 0}">
+                    0
+                </p>
+            </section>
+
         </aside>
-    </div>
+    </form>
+
+    <footer class="py-8 text-center text-xs text-slate-400">
+        DentalProtect · Dental Clinic
+    </footer>
+
 </main>
 
 <script>
-    const cards = document.querySelectorAll('.service-card');
-    const serviceType = document.getElementById('serviceType');
-    const basePrice = document.getElementById('basePrice');
+(() => {
+    const serviceCards = document.querySelectorAll('.service-card');
+    const serviceSelect = document.getElementById('serviceType');
+    const basePriceInput = document.getElementById('basePrice');
     const coverageRadios = document.querySelectorAll('input[name="coverageType"]');
+
     const baseAmount = document.getElementById('baseAmount');
+    const discountAmount = document.getElementById('discountAmount');
+    const discountReason = document.getElementById('discountReason');
     const finalAmount = document.getElementById('finalAmount');
     const coverageLabel = document.getElementById('coverageLabel');
+    const summaryService = document.getElementById('summaryService');
 
-    const discountByType = {
+    const serviceNames = {
+        CLEANING: 'ขูดหินปูน',
+        FILLING: 'อุดฟัน',
+        EXTRACTION: 'ถอนฟัน / ผ่าฟันคุด'
+    };
+
+    const coverageNames = {
+        DIRECT_PAY: 'ชำระเอง',
+        SOCIAL_SECURITY: 'ประกันสังคม',
+        CIVIL_SERVANT: 'ข้าราชการ'
+    };
+
+    /*
+     * ค่าด้านล่างใช้สำหรับแสดงตัวอย่างบนหน้าเว็บเท่านั้น
+     * ต้องทำให้ตรงกับ PricingStrategy ฝั่ง Java ก่อนใช้งานจริง
+     * Backend ต้องคำนวณราคาและส่วนลดใหม่ทุกครั้ง ไม่เชื่อค่าจาก Browser
+     */
+    const displayDiscountRates = {
         DIRECT_PAY: 0,
         SOCIAL_SECURITY: 0.10,
         CIVIL_SERVANT: 0.20
     };
 
-    function formatMoney(value) {
-        return new Intl.NumberFormat('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value) + ' บาท';
+    const moneyFormatter = new Intl.NumberFormat('th-TH', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+    function money(value) {
+        return moneyFormatter.format(value) + ' บาท';
     }
 
-    function updatePricingSummary() {
-        const amount = Number(basePrice.value || 0);
-        const selectedCoverage = document.querySelector('input[name="coverageType"]:checked');
-        const coverageType = selectedCoverage ? selectedCoverage.value : null;
-        const discount = coverageType ? discountByType[coverageType] || 0 : 0;
-        const final = amount * (1 - discount);
-
-        baseAmount.textContent = formatMoney(amount);
-        coverageLabel.textContent = coverageType ? {
-            DIRECT_PAY: 'ชำระเอง',
-            SOCIAL_SECURITY: 'ประกันสังคม',
-            CIVIL_SERVANT: 'ข้าราชการ'
-        }[coverageType] : 'ยังไม่ได้เลือก';
-        finalAmount.textContent = formatMoney(final);
+    function selectedCoverage() {
+        const radio = document.querySelector(
+            'input[name="coverageType"]:checked'
+        );
+        return radio ? radio.value : '';
     }
 
-    function selectService(card) {
-        cards.forEach(c => {
-            c.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50');
+    function selectedService() {
+        return serviceSelect.value || '';
+    }
+
+    function updateServiceSelection() {
+        const currentService = selectedService();
+
+        serviceCards.forEach(card => {
+            const radio = card.querySelector('input[type="radio"]');
+            const selected = radio.dataset.service === currentService;
+
+            card.classList.toggle('selected', selected);
+            radio.checked = selected;
         });
-        card.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
-        serviceType.value = card.dataset.service;
-        basePrice.value = card.dataset.price;
-        updatePricingSummary();
+
+        summaryService.textContent =
+            serviceNames[currentService] || 'ยังไม่ได้เลือก';
     }
 
-    cards.forEach(card => card.addEventListener('click', () => selectService(card)));
-    coverageRadios.forEach(radio => radio.addEventListener('change', updatePricingSummary));
+    function updateCoverageSelection() {
+        const currentCoverage = selectedCoverage();
 
-    if (serviceType.value) {
-        const selected = [...cards].find(c => c.dataset.service === serviceType.value);
-        if (selected) selectService(selected);
+        document.querySelectorAll('.coverage-card').forEach(card => {
+            const radio = card.querySelector('input[type="radio"]');
+            card.classList.toggle('selected', radio.checked);
+        });
+
+        coverageLabel.textContent =
+            coverageNames[currentCoverage] || 'ยังไม่ได้เลือก';
     }
-    updatePricingSummary();
+
+    function updatePricing() {
+        const price = Math.max(0, Number(basePriceInput.value || 0));
+        const coverage = selectedCoverage();
+        const rate = Object.prototype.hasOwnProperty.call(
+            displayDiscountRates, coverage
+        ) ? displayDiscountRates[coverage] : 0;
+
+        const discount = Math.round((price * rate + Number.EPSILON) * 100) / 100;
+        const total = Math.max(0, price - discount);
+
+        baseAmount.textContent = money(price);
+        discountAmount.textContent = '-' + money(discount);
+        finalAmount.textContent = money(total);
+
+        if (!coverage) {
+            discountReason.textContent =
+                'เลือกสิทธิการรักษาเพื่อดูรายละเอียด';
+        } else if (coverage === 'DIRECT_PAY') {
+            discountReason.textContent =
+                'ไม่มีส่วนลดจากสิทธิชำระเอง';
+        } else if (coverage === 'SOCIAL_SECURITY') {
+            discountReason.textContent =
+                'ส่วนลดตัวอย่างจากสิทธิประกันสังคม';
+        } else if (coverage === 'CIVIL_SERVANT') {
+            discountReason.textContent =
+                'ส่วนลดตัวอย่างจากสิทธิข้าราชการ';
+        } else {
+            discountReason.textContent =
+                'โปรดตรวจสอบเงื่อนไขส่วนลดกับเจ้าหน้าที่';
+        }
+
+        updateCoverageSelection();
+        updateServiceSelection();
+    }
+
+    serviceCards.forEach(card => {
+        const radio = card.querySelector('input[type="radio"]');
+
+        card.addEventListener('click', () => {
+            serviceSelect.value = radio.dataset.service;
+            basePriceInput.value = radio.dataset.price;
+            updatePricing();
+        });
+
+        radio.addEventListener('change', () => {
+            serviceSelect.value = radio.dataset.service;
+            basePriceInput.value = radio.dataset.price;
+            updatePricing();
+        });
+    });
+
+    coverageRadios.forEach(radio => {
+        radio.addEventListener('change', updatePricing);
+    });
+
+    document.querySelector('form').addEventListener('submit', event => {
+        if (!serviceSelect.value) {
+            event.preventDefault();
+            alert('กรุณาเลือกรายการบริการ');
+            return;
+        }
+
+        if (!selectedCoverage()) {
+            event.preventDefault();
+            alert('กรุณาเลือกสิทธิการรักษา');
+        }
+    });
+
+    updatePricing();
+})();
 </script>
+
 </body>
 </html>

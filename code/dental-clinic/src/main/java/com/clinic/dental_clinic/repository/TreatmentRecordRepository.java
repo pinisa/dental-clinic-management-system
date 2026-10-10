@@ -12,4 +12,6 @@ public interface TreatmentRecordRepository extends JpaRepository<TreatmentRecord
     Page<TreatmentRecord> findByPatientId(Long patientId, Pageable pageable);
 
     List<TreatmentRecord> findByDentistId(Long dentistId);
+
+    boolean existsByAppointmentQueueId(Long appointmentQueueId);
 }

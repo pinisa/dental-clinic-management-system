@@ -102,6 +102,6 @@ public class QueueWebController {
     public String queueStatusFragment(Model model, Pageable pageable) {
         model.addAttribute("queues", queueService.getAllQueues(pageable));
         model.addAttribute("queueCount", queueService.getAllQueues(pageable).getTotalElements());
-        return "queues/list :: queueTable";
+        return "queues/list";
     }
 }

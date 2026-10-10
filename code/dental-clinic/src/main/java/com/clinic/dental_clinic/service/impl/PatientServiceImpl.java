@@ -60,8 +60,12 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
 
+        if (patientRepository.existsByPhoneAndIdNot(request.getPhone(), id)) {
+            throw new IllegalArgumentException("เบอร์โทรศัพท์นี้ถูกใช้ลงทะเบียนแล้ว");
+        }
         patient.setName(request.getName());
         patient.setPhone(request.getPhone());
+        patient.setEmail(request.getEmail());
         patient.setCoverageType(request.getCoverageType());
 
         PatientProfile profile = patient.getProfile();
