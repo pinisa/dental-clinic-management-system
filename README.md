@@ -25,3 +25,5 @@
 **Tests**
 - `src/test/java/com/clinic/dental_clinic/service/AppointmentServiceImplTest.java` (2 Test Cases)
 - `src/test/java/com/clinic/dental_clinic/DentalClinicApplicationTests.java` (1 Integration Sanity Test Case)
+
+**Slide**
