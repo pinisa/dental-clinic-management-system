@@ -6,8 +6,8 @@
 
 | ลำดับ | ชื่อ-นามสกุล | รหัสนักศึกษา | Section | Branch | หน้าที่รับผิดชอบ |
 |---|---|---|---|---|---|
-| 1 | นายพชรดนัย สุดชาติ | 6733805931-1 | Sec.3 | phacharadanai_6733805931_03 | Dentist & Appointment Management และ Observer Pattern |
-| 2 | นายชาคริต รุ่งเรืองงาม | 673380997-3 | Sec.3 | chakhit_6733803997_03 | Queue & Treatment Management, Template Method Pattern และ System Integration |
+| 1 | นายชาคริต รุ่งเรืองงาม | 673380997-3 | Sec.3 | chakhit_6733803997_03 | Queue & Treatment Management, Template Method Pattern และ System Integration |
+| 2 | นายพชรดนัย สุดชาติ | 6733805931-1 | Sec.3 | phacharadanai_6733805931_03 | Dentist & Appointment Management และ Observer Pattern |
 | 3 | นางสาวพินิสา สุทธมาตย์ | 6733805973-3 | Sec.3 | pinisa_6733805973_03 | Patient Management, Database Design และ Pricing Strategy Pattern |
 
 ## System Architecture
@@ -45,140 +45,111 @@
 
 ## File Ownership and Responsibilities
 
-### พชรดนัย: Dentist & Appointment Management / Observer Pattern
-
-**Entity และ Repository**
-- domain/entity/Dentist.java
-- domain/entity/Appointment.java
-- repository/DentistRepository.java
-- repository/AppointmentRepository.java
-
-**DTO และ Mapper**
-- dto/request/AppointmentRequest.java
-- dto/response/AppointmentResponse.java
-- mapper/AppointmentMapper.java
-
-**Service และ Controller**
-- service/AppointmentService.java
-- service/impl/AppointmentServiceImpl.java
-- controller/AppointmentController.java
-
-**Observer Pattern**
-- pattern/observer/QueueObserver.java
-- pattern/observer/QueueSubject.java
-- pattern/observer/SmsNotificationObserver.java
-- pattern/observer/AuditLogObserver.java
-
-**Tests**
-- src/test/java/com/clinic/dental_clinic/service/AppointmentServiceImplTest.java
-- เพิ่ม tests สำหรับ Observer เพื่อทดสอบการแจ้งเตือนเมื่อสถานะคิวเปลี่ยนแปลง
-
 ### ชาคริต: Queue & Treatment Management / Template Method Pattern
 
 **Entity และ Repository**
-- domain/entity/AppointmentQueue.java
-- domain/entity/TreatmentRecord.java
-- domain/enums/QueueStatus.java
-- repository/AppointmentQueueRepository.java
-- repository/TreatmentRecordRepository.java
+- `domain/entity/AppointmentQueue.java`
+- `domain/entity/TreatmentRecord.java`
+- `domain/enums/QueueStatus.java`
+- `repository/AppointmentQueueRepository.java`
+- `repository/TreatmentRecordRepository.java`
 
 **DTO และ Mapper**
-- dto/request/QueueBookingRequest.java
-- dto/response/QueueResponse.java
-- dto/request/TreatmentRecordRequest.java
-- dto/response/TreatmentRecordResponse.java
-- mapper/AppointmentQueueMapper.java
-- เพิ่ม mapper/TreatmentRecordMapper.java หากจำเป็น
+- `dto/request/QueueBookingRequest.java`
+- `dto/response/QueueResponse.java`
+- `dto/request/TreatmentRecordRequest.java`
+- `dto/response/TreatmentRecordResponse.java`
+- `mapper/AppointmentQueueMapper.java`
+- `mapper/TreatmentRecordMapper.java`
 
 **Service และ Controller**
-- service/AppointmentQueueService.java
-- service/impl/AppointmentQueueServiceImpl.java
-- controller/AppointmentQueueController.java
-- เพิ่ม service/TreatmentRecordService.java
-- เพิ่ม service/impl/TreatmentRecordServiceImpl.java
-- เพิ่ม controller/TreatmentRecordController.java หากระบบต้องเปิด API สำหรับประวัติการรักษา
+- `service/AppointmentQueueService.java`
+- `service/impl/AppointmentQueueServiceImpl.java`
+- `controller/AppointmentQueueController.java`
+- `service/TreatmentRecordService.java`
+- `service/impl/TreatmentRecordServiceImpl.java`
+- `controller/TreatmentRecordController.java`
 
 **Template Method Pattern**
-- pattern/template/NotificationTemplate.java
-- เพิ่มคลาสย่อยสำหรับรูปแบบการแจ้งเตือนแต่ละประเภท โดยกำหนดชื่อคลาสและวิธีทำงานร่วมกันให้ชัดเจน
+- `pattern/template/NotificationTemplate.java`
+- คลาสย่อยสำหรับกำหนดรูปแบบและขั้นตอนการส่งการแจ้งเตือนประเภทต่างๆ
 
 **Tests**
-- src/test/java/com/clinic/dental_clinic/service/AppointmentQueueServiceImplTest.java
-- เพิ่ม tests สำหรับ Treatment Record และ Template Method ตามการทำงานที่พัฒนา
+- `src/test/java/com/clinic/dental_clinic/service/AppointmentQueueServiceImplTest.java` (9 Test Cases)
+- `src/test/java/com/clinic/dental_clinic/service/TreatmentRecordServiceImplTest.java` (11 Test Cases)
 
-### Pinisa: Patient Management & Pricing Strategy
+---
+
+### พชรดนัย: Patient Management & Pricing Strategy
 
 **Entity และ Repository**
-- domain/entity/Patient.java
-- domain/entity/PatientProfile.java
-- repository/PatientRepository.java
-- repository/PatientProfileRepository.java
+- `domain/entity/Patient.java`
+- `domain/entity/PatientProfile.java`
+- `repository/PatientRepository.java`
+- `repository/PatientProfileRepository.java`
 
 **DTO และ Mapper**
-- dto/request/PatientRequest.java
-- dto/response/PatientResponse.java
-- mapper/PatientMapper.java
+- `dto/request/PatientRequest.java`
+- `dto/response/PatientResponse.java`
+- `mapper/PatientMapper.java`
 
 **Service และ Controller**
-- service/PatientService.java
-- service/impl/PatientServiceImpl.java
-- controller/PatientController.java
+- `service/PatientService.java`
+- `service/impl/PatientServiceImpl.java`
+- `controller/PatientController.java`
 
 **Strategy Pattern**
-- pattern/strategy/PricingStrategy.java
-- pattern/strategy/PricingContext.java
-- pattern/strategy/DirectPayStrategy.java
-- pattern/strategy/SocialSecurityStrategy.java
-- pattern/strategy/CivilServantStrategy.java
+- `pattern/strategy/PricingStrategy.java`
+- `pattern/strategy/PricingContext.java`
+- `pattern/strategy/DirectPayStrategy.java`
+- `pattern/strategy/SocialSecurityStrategy.java`
+- `pattern/strategy/CivilServantStrategy.java`
 
 **Tests**
-- src/test/java/com/clinic/dental_clinic/service/PatientServiceImplTest.java
-- เพิ่ม unit tests สำหรับแต่ละ Pricing Strategy ตามเงื่อนไขที่กำหนด
+- `src/test/java/com/clinic/dental_clinic/service/PatientServiceImplTest.java` (2 Test Cases)
 
+---
+
+### พินิสา: Dentist & Appointment Management / Observer Pattern
+
+**Entity และ Repository**
+- `domain/entity/Dentist.java`
+- `domain/entity/Appointment.java`
+- `repository/DentistRepository.java`
+- `repository/AppointmentRepository.java`
+
+**DTO และ Mapper**
+- `dto/request/AppointmentRequest.java`
+- `dto/response/AppointmentResponse.java`
+- `mapper/AppointmentMapper.java`
+
+**Service และ Controller**
+- `service/AppointmentService.java`
+- `service/impl/AppointmentServiceImpl.java`
+- `controller/AppointmentController.java`
+
+**Observer Pattern**
+- `pattern/observer/QueueObserver.java`
+- `pattern/observer/QueueSubject.java`
+- `pattern/observer/SmsNotificationObserver.java`
+- `pattern/observer/AuditLogObserver.java`
+
+**Tests**
+- `src/test/java/com/clinic/dental_clinic/service/AppointmentServiceImplTest.java` (2 Test Cases)
+- `src/test/java/com/clinic/dental_clinic/DentalClinicApplicationTests.java` (1 Integration Sanity Test Case)
+  
 ## Design Patterns
-
 ระบบนำ GoF Design Patterns มาใช้เพื่อแสดงการประยุกต์ใช้รูปแบบการออกแบบซอฟต์แวร์
 
 1. **Strategy Pattern:** เลือกวิธีคำนวณค่าบริการตามประเภทสิทธิ์การชำระเงิน เช่น จ่ายเอง ประกันสังคม และสิทธิข้าราชการ
 2. **Observer Pattern:** แจ้งเตือนหรือบันทึก Log เมื่อสถานะคิวมีการเปลี่ยนแปลง
 
-## Installation & Setup
 
-### 1. Clone Repository
-
-bash
-git clone https://github.com/pinisa/dental-clinic-management-system.git
-cd dental-clinic-management-system
-
-### 2. เข้าโฟลเดอร์ Spring Boot
-
-bash
-cd code/dental-clinic
-
-### 3. ตั้งค่าฐานข้อมูล
-
-ตั้งค่า PostgreSQL ใน src/main/resources/application.properties โดยใช้ค่าที่เหมาะกับเครื่องของแต่ละคน หลีกเลี่ยงการ commit รหัสผ่านหรือ secret ลง GitHub
-
-### 4. Run Tests
-
-บน macOS หรือ Linux:
-
-bash
-chmod +x mvnw
-./mvnw test
-
-### 5. Run Application
+### Run Web Application
 
 bash
 ./mvnw spring-boot:run
 
-เมื่อแอปเริ่มทำงานสำเร็จ สามารถเปิด http://localhost:8080 ในเบราว์เซอร์ได้ ทั้งนี้หน้าแรกจะใช้งานได้ก็ต่อเมื่อมีการกำหนด route หรือหน้าเว็บไว้แล้ว
-
-## API Documentation
-
-เมื่อกำหนด OpenAPI/Swagger UI และเปิดใช้งานแล้ว สามารถตรวจสอบ API ผ่านหน้าเอกสารที่:
-
-http://localhost:8080/swagger-ui/index.html
 
 ## Testing
 
