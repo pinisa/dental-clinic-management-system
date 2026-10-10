@@ -26,25 +26,12 @@
 ---
 
 
-# Test Report — Dental Clinic Management System
-
-รายงานผลการทดสอบ Unit Test ของระบบบริหารจัดการคลินิกทำฟัน (Dental Clinic Management System)
-
-
----
-
-
 ### ผลการรัน Terminal (Maven Test Output)
 
 <img width="617" height="172" alt="Screenshot 2026-10-10 at 18 14 41" src="https://github.com/user-attachments/assets/10f65b4b-f151-4366-9614-9a7e24049eb2" />
 
 ---
 
-## 3. รายละเอียด Test Case
-
-
-| Test ID | Test Method | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผล |
-| :--- | :--- | :--- | :--- | :---: |
 # รายละเอียด Test Cases ทั้งหมดในระบบ (25 Test Cases)
 
 ---
@@ -117,7 +104,7 @@
 
 ---
 
-## 5. หมายเหตุ
+## หมายเหตุ
 
 * **Unit Test** ส่วนใหญ่ใช้ Mockito จำลอง Repository จึงไม่ต้องต่อฐานข้อมูลจริง
 * **`DentalClinicApplicationTests.contextLoads`** เป็น Integration Test ที่ทดสอบการโหลด Spring Context ร่วมกับฐานข้อมูล PostgreSQL / H2
