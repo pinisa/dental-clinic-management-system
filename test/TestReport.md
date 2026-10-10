@@ -105,10 +105,3 @@
 
 
 
----
-
-## หมายเหตุ
-
-* **Unit Test** ส่วนใหญ่ใช้ Mockito จำลอง Repository จึงไม่ต้องต่อฐานข้อมูลจริง
-* **`DentalClinicApplicationTests.contextLoads`** เป็น Integration Test ที่ทดสอบการโหลด Spring Context ร่วมกับฐานข้อมูล PostgreSQL / H2
-* **ผลการรันแบบละเอียดของแต่ละคลาส** อยู่ใน `code/dental-clinic/target/surefire-reports/`
