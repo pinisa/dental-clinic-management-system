@@ -27,27 +27,8 @@
 
 ### ผลการรัน Terminal (Maven Test Output)
 
-ผลจาก Maven: `Tests run: 5, Failures: 0, Errors: 0, Skipped: 0 — BUILD SUCCESS`
+<img width="2056" height="462" alt="image" src="https://github.com/user-attachments/assets/742358e3-db5b-41d4-8d2c-f39fb1bf5051" />
 
-```text
-[INFO] Running com.clinic.dental_clinic.DentalClinicApplicationTests
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 24.12 s -- in com.clinic.dental_clinic.DentalClinicApplicationTests
-[INFO] Running com.clinic.dental_clinic.service.PatientServiceImplTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.122 s -- in com.clinic.dental_clinic.service.PatientServiceImplTest
-[INFO] Running com.clinic.dental_clinic.service.AppointmentServiceImplTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 s -- in com.clinic.dental_clinic.service.AppointmentServiceImplTest
-[INFO] 
-[INFO] Results:
-[INFO] 
-[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
-[INFO] 
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  28.048 s
-[INFO] Finished at: 2026-10-10T16:40:15+07:00
-[INFO] ------------------------------------------------------------------------
-```
 
 ---
 
