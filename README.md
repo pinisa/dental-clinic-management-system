@@ -70,11 +70,13 @@
 - `service/impl/TreatmentRecordServiceImpl.java`
 - `controller/TreatmentRecordController.java`
 
-
 **Tests**
 - `src/test/java/com/clinic/dental_clinic/service/AppointmentQueueServiceImplTest.java` (9 Test Cases)
 - `src/test/java/com/clinic/dental_clinic/service/TreatmentRecordServiceImplTest.java` (11 Test Cases)
 
+**Deployment and Database**
+- Deployment on Render
+- Database on Neon
 ---
 
 ### พชรดนัย: Patient Management & Pricing Strategy
