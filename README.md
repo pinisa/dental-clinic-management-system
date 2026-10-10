@@ -109,7 +109,7 @@
 
 ---
 
-### พินิสา: Dentist & Appointment Management / Observer Pattern
+### พินิสา: Dentist & Appointment Management / Observer Pattern / Slide
 
 **Entity และ Repository**
 - `domain/entity/Dentist.java`
