@@ -20,8 +20,8 @@
 
 | สมาชิก | Test Class | Test Case | ผ่าน | ไม่ผ่าน |
 | :--- | :---: | :---: | :---: | :---: |
-| **พิณิชา (Pinisa)** | 4 | 18 | 18 | 0 |
-| **ชัคฆิฬ (Chakhit)** | 3 | 12 | 12 | 0 |
+| **พินิสา (Pinisa)** | 4 | 18 | 18 | 0 |
+| **ชาคริต (Chakhit)** | 3 | 12 | 12 | 0 |
 | **พชรดนัย (Phacharadanai)** | 3 | 10 | 10 | 0 |
 | **ทีม (System)** | 1 | 1 | 1 | 0 |
 | **รวม** | **11** | **41** | **41** | **0** |
@@ -43,6 +43,10 @@
 [INFO] Total time:  18.520 s
 [INFO] Finished at: 2026-10-10T16:30:00+07:00
 [INFO] ------------------------------------------------------------------------
+```
+
+---
+
 ## 3. รายละเอียด Test Case
 
 ### 3.1 พินิสา (Pinisa)
@@ -174,10 +178,13 @@
 
 | Pattern | ผู้รับผิดชอบ | Test Class | เทสต์ยืนยันอะไร |
 | :--- | :--- | :--- | :--- |
-| **Strategy** | พิณิชา | `PricingStrategyTest`, `TreatmentRecordServiceImplTest` | คำนวณราคาสุทธิและหักส่วนลดตามประเภทสิทธิการรักษา (`DIRECT_PAY`, `SOCIAL_SECURITY`, `CIVIL_SERVANT`) ได้ถูกต้อง (`TC-STR-01` ถึง `04`) |
-| **Observer** | พิณิชา | `QueueObserverTest`, `AppointmentQueueServiceImplTest` | เมื่อสถานะคิวเปลี่ยน ระบบจะส่งข้อความแจ้งเตือนผ่าน SMS (`SmsNotificationObserver`) และบันทึกประวัติกิจกรรม (`AuditLogObserver`) โดยอัตโนมัติ (`TC-OBS-01`, `02`) |
+| **Strategy** | พินิสา | `PricingStrategyTest`, `TreatmentRecordServiceImplTest` | คำนวณราคาสุทธิและหักส่วนลดตามประเภทสิทธิการรักษา (`DIRECT_PAY`, `SOCIAL_SECURITY`, `CIVIL_SERVANT`) ได้ถูกต้อง (`TC-STR-01` ถึง `04`) |
+| **Observer** | พินิสา | `QueueObserverTest`, `AppointmentQueueServiceImplTest` | เมื่อสถานะคิวเปลี่ยน ระบบจะส่งข้อความแจ้งเตือนผ่าน SMS (`SmsNotificationObserver`) และบันทึกประวัติกิจกรรม (`AuditLogObserver`) โดยอัตโนมัติ (`TC-OBS-01`, `02`) |
+
+---
+
 ## 5. หมายเหตุ
 
-* **Unit Test** ส่วนใหญ่ใช้ Mockito จำลอง Repository จึงไม่ต้องต่อฐานข้อมูลจริง[cite: 16]
-* **`DentalClinicApplicationTests.contextLoads`** เป็น Integration Test ที่ทดสอบกับฐานข้อมูล H2 (In-Memory) สำหรับการทดสอบ หรือ PostgreSQL บน Cloud[cite: 16]
-* **ผลการรับแบบละเอียดของแต่ละคลาส** อยู่ใน `code/dental-clinic/target/surefire-reports/` และดาวน์โหลดได้จากหน้า GitHub Actions (artifact `test-reports`)[cite: 16]
+* **Unit Test** ส่วนใหญ่ใช้ Mockito จำลอง Repository จึงไม่ต้องต่อฐานข้อมูลจริง
+* **`DentalClinicApplicationTests.contextLoads`** เป็น Integration Test ที่ทดสอบกับฐานข้อมูล H2 (In-Memory) สำหรับการทดสอบ หรือ PostgreSQL บน Cloud
+* **ผลการรับแบบละเอียดของแต่ละคลาส** อยู่ใน `code/dental-clinic/target/surefire-reports/` และดาวน์โหลดได้จากหน้า GitHub Actions (artifact `test-reports`)
