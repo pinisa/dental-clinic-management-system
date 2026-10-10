@@ -25,7 +25,6 @@
 
 **Template Method Pattern**
 - `pattern/template/NotificationTemplate.java`
-- คลาสย่อยสำหรับกำหนดรูปแบบและขั้นตอนการส่งการแจ้งเตือนประเภทต่างๆ
 
 **Tests**
 - `src/test/java/com/clinic/dental_clinic/service/AppointmentQueueServiceImplTest.java` (9 Test Cases)
