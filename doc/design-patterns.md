@@ -21,32 +21,6 @@
 |---|---|---|---|
 | Strategy | วิธีคำนวณราคาค่ารักษาแตกต่างกันตามประเภทผู้ป่วย หากรวมทุกวิธีไว้ในเงื่อนไขเดียวจะทำให้แก้ไขและเพิ่มเติมได้ยาก | `PricingStrategy.java`, `DirectPayStrategy.java`, `CivilServantStrategy.java`, `SocialSecurityStrategy.java`, `PricingContext.java` | แยกวิธีคำนวณราคาแต่ละประเภทเป็น Strategy ทำให้เลือกใช้วิธีที่เหมาะสมได้ และเพิ่มวิธีคำนวณใหม่ได้โดยลดการแก้ไขโค้ดส่วนอื่น |
 
-Class Diagram:
-
-```mermaid
-classDiagram
-    class PricingStrategy {
-        <<interface>>
-        +calculatePrice(basePrice) Double
-    }
-    class DirectPayStrategy {
-        +calculatePrice(basePrice) Double
-    }
-    class CivilServantStrategy {
-        +calculatePrice(basePrice) Double
-    }
-    class SocialSecurityStrategy {
-        +calculatePrice(basePrice) Double
-    }
-    class PricingContext {
-        -Map strategies
-        +calculateFinalPrice(patientType, basePrice) Double
-    }
-    PricingStrategy <|.. DirectPayStrategy
-    PricingStrategy <|.. CivilServantStrategy
-    PricingStrategy <|.. SocialSecurityStrategy
-    PricingContext --> PricingStrategy : selects and uses
-```
 
 ### 2.2 Observer Pattern
 
