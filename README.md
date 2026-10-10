@@ -192,6 +192,4 @@ bash
 [https://dental-clinic-management-system-gi7m.onrender.com](https://dental-clinic-management-system-gi7m.onrender.com)
 
 * **การติดตั้งและให้บริการ (Deployment):** รันแอปพลิเคชันผ่าน Docker Container บนบริการ Render และเชื่อมต่อกับฐานข้อมูล Neon PostgreSQL บน Cloud
-* **ระบบทำงานอัตโนมัติ (CI/CD):** เมื่อกด Push หรือ Merge โค้ดเข้า branch `develop` และผ่านการทดสอบบน GitHub Actions ระบบ Render จะดำเนินการ Deploy เวอร์ชันล่าสุดให้อัตโนมัติ
 * **การเข้าใช้งาน (Render Free Tier):** เนื่องจากใช้บริการรูปแบบ Free Tier หากไม่มีการใช้งานระยะหนึ่ง ระบบจะเข้าสู่สภาวะ Sleep การเข้าใช้งานครั้งแรกอาจใช้เวลาสปินอัปแอปพลิเคชันประมาณ 30-50 วินาที
-* **ข้อมูลแผนผังระบบ:** ดูรายละเอียดเพิ่มเติมได้ที่ [Deployment Diagram](doc/deployment-diagram.md)
