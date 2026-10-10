@@ -17,11 +17,14 @@
 ---
 
 ## สรุปผล
-
 | ภาพรวมโครงการ | Test Class | Test Case | ผ่าน | ไม่ผ่าน |
 | :--- | :---: | :---: | :---: | :---: |
-| **การทดสอบระบบทั้งหมด (System & Unit Tests)** | 3 | 5 | 5 | 0 |
-| **รวมทั้งสิ้น** | **3** | **5** | **5** | **0** |
+| **`DentalClinicApplicationTests`** | 1 | 1 | 1 | 0 |
+| **`PatientServiceImplTest`** | 1 | 2 | 2 | 0 |
+| **`AppointmentServiceImplTest`** | 1 | 2 | 2 | 0 |
+| **`AppointmentQueueServiceImplTest`** | 1 | 9 | 9 | 0 |
+| **`TreatmentRecordServiceImplTest`** | 1 | 11 | 11 | 0 |
+| **รวมทั้งสิ้น** | **5** | **25** | **25** | **0** |
 
 ---
 
